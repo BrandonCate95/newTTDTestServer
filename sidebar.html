@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>Collapsible sidebar using Bootstrap 3</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- common style -->
+<style>
+/* utilities */
+.hidden{
+	display:none !important;
+}
+.visible{
+	display:auto !important;
+}
+.bold{
+	font-weight:bold;
+}
+.size-20{
+	font-size:20px;
+}
+.size-22{
+	font-size:22px;
+}
+.size-18{
+	font-size:18px;
+}
+.unbold{
+	font-weight:normal;
+}
+.nopointer{
+	cursor:auto;
+}
+.pointer{
+	cursor:pointer;
+}
+.no-border{
+	border:none;
+}
+/* end utilities */
+
+/* button */
+button{
+	cursor:pointer;
+}
+button:focus{
+	outline:none;
+}
+.btn:focus{
+	box-shadow:none;
+}
+.btn-outline-success-blue{
+	color:#439cdb;
+	border-color:#439cdb;
+}
+.btn-outline-success-blue:hover{
+	background:#439cdb;
+}
+.closeBtn{
+	color:red;
+	position:absolute;
+	top:0;
+	right:3px;
+}
+.deEmphasisSearchBtn{
+	background:white;
+	border:none;
+}
+.deEmphasisNaviconBtn{
+	background:none;
+	border:none;
+}
+/* end button */
+
+/* card */
+.card{
+	padding:0;
+	border:none;
+	margin:0;
+	height;auto;
+	font-family:Helvetica;
+}
+.card-body{
+	padding:0;
+}
+.card-img-top,.card-body{
+	cursor:pointer;
+}
+.card-info{
+	margin:0;
+}
+.card:nth-of-type(3n+3){
+	padding:0;
+	padding-left:15px;
+}
+.card:nth-of-type(3n+2){
+	padding:0;
+	padding-right:7.5px;
+	padding-left:7.5px;
+}
+.card:nth-of-type(3n+1){
+	padding:0;
+	padding-right:15px;
+}
+@media (max-width:768px){
+	.card:nth-of-type(2n+1){
+		padding:0;
+		padding-right:15px;
+	}
+	.card:nth-of-type(2n){
+		padding:0;
+		padding-left:15px;
+	}
+}
+/* end card */
+
+/* search bar */
+.searchWidth {
+    width: 100%;
+}
+@media (min-width: 573px) and (max-width: 992px) {
+	.searchWidth {
+		width: 75%;
+	}
+}
+@media (min-width: 992px){
+	.searchWidth {
+		width: 750px;
+	}
+}
+/* end search bar */
+
+/* images */
+img,iframe{
+	border-radius:5px;
+}
+.userLogo img{
+	width:50px;
+	height:50px;
+}
+/* end images */
+
+
+/* text */
+.logo{
+	font-size:30px;
+	font-weight:bold;
+}
+.miscInfoText{
+	font-size:14px;
+	color:#999999;
+}
+.notActiveInfo{
+	font-weight:bold;
+	font-size:13px;
+	color:#7397d1;
+}
+.title{
+	font-weight:bold;
+	font-size:17px;
+	color:#555555;
+}
+.textLink{
+	color:#439cdb;
+	border:none;
+	background:none;
+	padding:0;
+	margin:0;
+	display:inline-block;
+}
+.textLink:hover{
+	color:#3e64a3;
+}
+.userName{
+	font-family:Helvetica;
+	font-weight:bold;
+	font-size:17px;
+}
+.infoText{
+	font-size:15px;
+	color:#676767;
+}
+/* end text */
+
+/* other */
+i{
+	color:#439cdb;
+}
+.filter{
+	width:auto !important;
+}
+.filter-addon{
+	font-size:14px;
+	cursor:pointer;
+}
+.filter .input-group-addon{
+	padding:5px 7px;
+}
+@media (max-width: 670px) {
+	.filter-addon {
+		font-size:12px;
+	}
+}
+/* end other */
+
+</style>
+
+<!-- NavBar Style -->
+<style>
+.minw-150{
+	min-width:200px;
+}
+.w-150{
+	width:200px;
+}
+#callSignUp{
+	display:auto;
+}
+@media (max-width:768px){
+	#callSignUp{
+		display:none;
+	}
+}
+.navbar{
+	z-index:5;
+	background:white !important;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<!-- modal style -->
+<style>
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 7; 
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    margin: auto;
+    padding: 5px;
+    border: 1px solid #888;
+    width: 350px;
+}
+.modal-text{
+	font-size:16px;
+	color:#555555;
+}
+</style>
+
+<!-- sidebar style -->
+<style>
+.sidebar{
+	position:fixed;
+	top:46px;
+	height:100%;
+	background:white;
+	word-wrap:break-word;
+	overflow-y:auto;
+	transition: all 0.2s;
+	margin-left:-200px;
+	z-index:5;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.wrapper{
+	padding-top:46px;
+	z-index:1;
+	background:#fafafa;
+	transition: all 0.2s;
+}
+.sidebar.active{
+	margin-left:0px;
+}
+
+.wrapper.active{
+	margin-left:200px;
+}
+#sidebarOverlay{
+	position:fixed;
+	display:none;
+	width:100%;
+	height:100%;
+}
+@media (max-width:768px){
+	.wrapper.active{
+		margin-left:0px;
+	}
+	#sidebarOverlay.active{
+		display:inline;
+		z-index:2;
+		background-color: rgb(0,0,0);
+		background: rgba(0, 0, 0, 0.7);
+	}
+}
+.fa-circle{
+	color:#e9ecef;
+}
+.fa-circle.active{
+	color:white;
+}
+.sidebarOption:hover{
+	background:#e9ecef;
+}
+.col-2,.col-3,.col-8,.col-9{
+	padding:0;
+}
+</style>
+
+</head>
+<body>
+
+<nav class="d-flex w-100 py-1 px-0 mx-0 navbar navbar-expand navbar-light fixed-top">	
+	
+	<div class="d-inline-flex minw-150 infoText size-18">
+		<div class="flex-row w-100">	
+			<span id="sidebarCollapse" class="col-3 fa-stack align-middle ml-3 text-center pointer">
+			  <i id="sidebarCollapseCircle" class="fa fa-circle fa-stack-2x align-middle icon-background active"></i>
+			  <i class="fa fa-navicon fa-stack-1x align-middle size-20"></i>
+			</span>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 mb-1" href="index.html">Logo Name</a>
+		</div>
+	</div>
+	
+	<div class="pr-0 mx-0 searchWidth visible">
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Search for...">
+			<button class="searchBtn input-group-addon">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</div><!-- /input-group -->
+	</div>
+		
+
+    <div class="d-flex ml-auto px-2">
+		
+		<button id="callSignIn" class="btn btn-outline-success btn-outline-success-blue mr-md-2 mr-0" type="submit" 
+		onclick="document.getElementById('signInModal').style.display='block';">Sign In</button>
+
+		<button id="callSignUp" class="btn btn-outline-success btn-outline-success-blue mr-0" type="submit"
+		onclick="document.getElementById('signUpModal').style.display='block';">Sign Up</button>
+
+    </div>
+	
+</nav>
+
+<div id="sidebarOverlay active"></div>
+
+<div id="sidebar" class="text-wrap sidebar w-150 active">
+	<div class="d-inline-flex w-100 mt-3 infoText">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Filters</span>
+		</div>
+	</div>
+
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-tree align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Outdoors</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-gamepad align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Outdoors</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-futbol-o align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Outdoors</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText mt-3">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Catagories</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-tree align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Outdoors</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-gamepad align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Outdoors</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-futbol-o align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Outdoors</span>
+		</div>
+	</div>
+</div>
+		
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.wrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+    });
+});
+
+$(document).ready(function () {
+    $('#sidebar').on('click', function () {
+	
+		console.log('clicked');
+	
+    });
+});
+
+</script>
+
+<div class="pl-4 mt-4 wrapper active">
+
+    <h2>Collapsible Sidebar Using Bootstrap 3</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    <div class="line"></div>
+
+    <h2>Lorem Ipsum Dolor</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    <div class="line"></div>
+
+    <h2>Lorem Ipsum Dolor</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    <div class="line"></div>
+
+    <h3>Lorem Ipsum Dolor</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	
+	<h3>Lorem Ipsum Dolor</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<h3>Lorem Ipsum Dolor</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		
+</div>
+
+<!-- Sign In Modal -->
+<div id="signInModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signInModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign in with your username and password</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="textLink ml-2 text-left" type="submit"
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('forgotPasswordModal').style.display='block';">Forgot your password?</button>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit">Sign In</button>
+		<div class="modal-text justify-content-center text-center">Need an account? <button class="textLink" 
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('signUpModal').style.display='block';">Sign Up</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signUpModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signUpModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign up with a new account</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Email</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('codeVerificationModal').style.display='block';">Sign Up</button>
+		<div class="modal-text justify-content-center text-center">Already have an account? <button class="textLink" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('signInModal').style.display='block';">Sign In</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Forgot password Modal -->
+<div id="forgotPasswordModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('forgotPasswordModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Forgot your password?</div>
+		<div class="modal-text my-2">Enter your username below and we will send a message to your email to reset your password</div>
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('forgotPasswordModal').style.display='none';document.getElementById('passwordResetModal').style.display='block';">Reset my password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- Password Reset Modal -->
+<div id="passwordResetModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('passwordResetModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a password reset code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">New Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('passwordResetModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Change password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- account verified Modal -->
+<div id="accountVerifiedModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('accountVerifiedModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text text-center">Your account has been verified</div>
+		<div class="title text-center my-2">Thank You</div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Code Verification Modal -->
+<div id="codeVerificationModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('codeVerificationModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('codeVerificationModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Confirm Account</button>
+		<div class="modal-text justify-content-center text-center">Didnt recieve a code? <button class="textLink">Resend It</button></div>
+	</div>
+  </div>
+
+</div>
+
+<script>
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == document.getElementById('signInModal')) {
+        document.getElementById('signInModal').style.display = "none";
+    }else if(event.target == document.getElementById('signUpModal')){
+		document.getElementById('signUpModal').style.display = "none";
+	}else if(event.target == document.getElementById('forgotPasswordModal')){
+		document.getElementById('forgotPasswordModal').style.display = "none";
+	}else if(event.target == document.getElementById('accountVerifiedModal')){
+		document.getElementById('accountVerifiedModal').style.display = "none";
+	}
+}
+</script>
+
+</body>
+</html>

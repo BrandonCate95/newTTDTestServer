@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- star rating scripts page:http://gjunge.github.io/rateit.js/examples/#ex_2d -->
+<script src="rateit.js-master/scripts/jquery.rateit.min.js"></script>
+<link rel="stylesheet" href="rateit.js-master/scripts/rateit.css">
+
+<!-- query ui for positioning close buttons -->
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+
+<!-- date/time picker script -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  
+
+<!-- aws api -->
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<style>
+hr{
+	margin:15px 0;
+}
+.price{
+	width:100%;
+	padding:0;
+	height:30px;
+	text-align:center;
+	color:#34a65e;
+}
+.rating{
+	font-size:13px;
+	color:#439cdb;
+}
+.unchecked {
+    color: white;
+	text-shadow: -1px 0 #6db3ff, 0 1px #6db3ff, 1px 0 #6db3ff, 0 -1px #6db3ff;
+}
+.fa-check{
+	color:#34a65e;
+}
+.carousel-control-prev,.carousel-control-prev:focus, .carousel-control-next,.carousel-control-next:focus {
+	opacity:.8;
+    width: 4%;
+}
+.suggCarouselControl{
+	top:-50%;
+}
+.mainCarouselImg{
+	width:100%;
+	max-height:400px;
+	height:auto;
+}
+</style>
+
+<!-- common style -->
+<style>
+/* utilities */
+.hidden{
+	display:none !important;
+}
+.visible{
+	display:auto !important;
+}
+.bold{
+	font-weight:bold;
+}
+.size-20{
+	font-size:20px !important;
+}
+.size-22{
+	font-size:22px !important;
+}
+.size-18{
+	font-size:18px !important;
+}
+.size-13{
+	font-size:13px !important;
+}
+.unbold{
+	font-weight:normal;
+}
+.nopointer{
+	cursor:auto;
+}
+.pointer{
+	cursor:pointer;
+}
+.no-border{
+	border:none;
+}
+/* end utilities */
+
+/* button */
+button{
+	cursor:pointer;
+}
+button:focus{
+	outline:none;
+}
+.btn:focus{
+	box-shadow:none;
+}
+.btn-outline-success-blue{
+	color:#439cdb;
+	border-color:#439cdb;
+}
+.btn-outline-success-blue:hover,.btn-outline-success-blue.active{
+	background:#439cdb;
+	border-color:#439cdb;
+	box-shadow:none;
+}
+.closeBtn{
+	color:red;
+	cursor:pointer;
+	opacity:.6;
+}
+.closeBtn:hover{
+	opacity:1;
+}
+.deEmphasisSearchBtn{
+	background:white;
+	border:none;
+}
+.deEmphasisNaviconBtn{
+	background:none;
+	border:none;
+}
+/* end button */
+
+/* card */
+.card{
+	padding:0;
+	border:none;
+	margin:0;
+	background:#fafafa;
+	height;auto;
+	font-family:Helvetica;
+}
+.card-body{
+	padding:0;
+}
+.card-img-top,.card-body{
+	cursor:pointer;
+}
+.card-info{
+	margin:0;
+}
+.card:nth-of-type(3n+3){
+	padding:0;
+	padding-left:15px;
+}
+.card:nth-of-type(3n+2){
+	padding:0;
+	padding-right:7.5px;
+	padding-left:7.5px;
+}
+.card:nth-of-type(3n+1){
+	padding:0;
+	padding-right:15px;
+}
+@media (max-width:768px){
+	.card:nth-of-type(2n+1){
+		padding:0;
+		padding-right:15px;
+	}
+	.card:nth-of-type(2n){
+		padding:0;
+		padding-left:15px;
+	}
+}
+/* end card */
+
+/* images */
+img,iframe{
+	border-radius:5px;
+}
+.userLogo img{
+	width:50px;
+	height:50px;
+}
+/* end images */
+
+
+/* text */
+.logo{
+	font-size:30px;
+	font-weight:bold;
+	line-height:1;
+}
+.miscInfoText{
+	font-size:14px;
+	color:#999999;
+}
+.notActiveInfo{
+	font-weight:bold;
+	font-size:13px;
+	color:#7397d1;
+}
+.title{
+	font-weight:bold;
+	font-size:17px;
+	color:#555555;
+}
+.textLink{
+	color:#439cdb;
+	border:none;
+	background:none;
+	padding:0;
+	margin:0;
+	display:inline-block;
+}
+.textLink:hover{
+	color:#3e64a3;
+}
+.welcomeLink{
+	color:#555555 !important;
+	font-size:17px;
+}
+.welcomeLink:hover{
+	color:#555555 !important;
+	text-decoration:none;
+}
+.userName{
+	font-family:Helvetica;
+	font-weight:bold;
+	font-size:17px;
+}
+.infoText{
+	font-size:15px;
+	color:#676767;
+}
+/* end text */
+
+/* other */
+i{
+	color:#439cdb;
+}
+.filter{
+	width:auto !important;
+}
+.filter-addon{
+	font-size:14px;
+	cursor:pointer;
+}
+.filter .input-group-addon{
+	padding:5px 7px;
+}
+@media (max-width: 670px) {
+	.filter-addon {
+		font-size:12px;
+	}
+}
+.nav-link.active{
+	background-color:#fafafa !important;
+}
+.rateit .rateit-preset{
+	color:#439cdb;
+}
+.rateit-font{
+	font-size:17px;
+}
+.rateit-font .rateit-range > div{
+	cursor:pointer !important;
+}
+.container{
+	padding:0;
+}
+/* end other */
+
+</style>
+
+<!-- NavBar Style -->
+<style>
+.minw-150{
+	min-width:200px;
+}
+.w-150{
+	width:200px;
+}
+#callSignUp{
+	display:auto;
+}
+@media (max-width:768px){
+	#callSignUp{
+		display:none;
+	}
+}
+.navbar{
+	z-index:5;
+	background:white !important;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<!-- search results style -->
+<style>
+.searchResultsContainer{
+	margin-left:200px;
+	transition: all 0.2s;
+}
+.searchResultsContainer.active{
+	margin-left:30px;
+}
+
+/* search bar */
+.searchWidth {
+    width: 100%;
+}
+@media (max-width: 992px){
+	.searchWidth{
+		padding:0 30px;
+	}
+	.searchResultsContainer,.searchResultsContainer.active{
+		margin-left:0px;
+	}
+}
+@media (min-width: 992px){
+	.searchWidth {
+		width: 800px;
+	}
+}
+/* end search bar */
+
+</style>
+
+<!-- modal style -->
+<style>
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 7; 
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+.picModal{
+	padding-top:35px;
+}
+.modal-content {
+    margin: auto;
+    padding: 5px;
+    border: 1px solid #888;
+    width: 350px;
+}
+.modal-text{
+	font-size:16px;
+	color:#555555;
+}
+</style>
+
+<!-- sidebar style -->
+<!-- This is slightly different from search sidebar style -->
+<!-- namely top = 44 here not top = 46 -->
+<style>
+.sidebar{
+	position:fixed;
+	top:44px;
+	height:100%;
+	background:white;
+	word-wrap:break-word;
+	overflow-y:auto;
+	transition: all 0.2s;
+	margin-left:-200px;
+	z-index:5;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.wrapper,.pageWrapper,.userpageWrapper{
+	padding-top:46px;
+	z-index:1;
+	background:#fafafa;
+	transition: all 0.2s;
+}
+.sidebar.active{
+	margin-left:0px;
+}
+.wrapper.active,.userpageWrapper.active{
+	margin-left:200px;
+}
+.pageWrapper.active{
+	margin-left:40px;
+}
+@media (min-width:992px) and (max-width:1150px){
+	.pageWrapper.active{
+		margin-left:10%;
+	}
+}
+@media (min-width:1150px) and (max-width:1300px){
+	.pageWrapper.active{
+		margin-left:5%;
+	}
+}
+#sidebarOverlay{
+	position:fixed;
+	display:none;
+	width:100%;
+	height:100%;
+}
+@media (max-width:992px){
+	.wrapper.active,.pageWrapper.active,.userpageWrapper.active{
+		margin-left:0px;
+	}
+	#sidebarOverlay.active{
+		display:inline;
+		z-index:2;
+		background-color: rgb(0,0,0);
+		background: rgba(0, 0, 0, 0.7);
+	}
+}
+.fa-circle{
+	color:#e9ecef;
+}
+.fa-circle.active{
+	color:white;
+}
+.sidebarOption:hover{
+	background:#e9ecef;
+}
+.col-2,.col-3,.col-4,.col-8,.col-9,.col-12{
+	padding:0;
+}
+.row{
+	margin-left:0;
+	margin-right:0;
+}
+.dropdown-menu.show{
+	left:-50px;
+}
+.dropdown-toggle::after{
+	margin-top:10px;
+}
+</style>
+
+<!-- add page css -->
+<style>
+[contenteditable]:focus {
+    outline: 0px solid transparent;
+}
+</style>
+
+
+</head>
+<body>
+
+<nav class="d-flex w-100 py-1 px-0 mx-0 navbar navbar-expand navbar-light fixed-top">	
+	
+	<div class="d-inline-flex minw-150 infoText size-18">
+		<div class="flex-row w-100">	
+			<span id="sidebarCollapse" class="col-3 fa-stack align-middle ml-3 text-center pointer">
+			  <i id="sidebarCollapseCircle" class="fa fa-circle fa-stack-2x align-middle icon-background active"></i>
+			  <i class="fa fa-navicon fa-stack-1x align-middle size-20"></i>
+			</span>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 mb-1" href="index.html">Logo Name</a>
+		</div>
+	</div>
+	
+	<div class="pr-0 mx-0 searchWidth visible">
+		<div class="input-group">
+			<input id="searchInput" type="text" class="form-control no-border" placeholder="Search for...">
+			<button id="searchBtn" class="deEmphasisSearchBtn input-group-addon">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</div><!-- /input-group -->
+	</div>
+	
+	<script>
+		
+	$("#searchInput").keyup(function(event) {
+		if (event.keyCode === 13) {
+			document.getElementById("searchBtn").click();
+		}
+	});
+	
+	$(function() {
+		$(document).on("click", "#searchBtn", function(){
+			search();
+		});
+	});
+		
+	function search(){
+		var query = document.getElementById("searchInput").value;
+		location.href = "search.html?q=" + query; 
+	}
+		
+	</script>	
+
+    <div class="d-flex ml-auto px-2 hidden">
+		
+		<button id="callSignIn" class="btn btn-outline-success btn-outline-success-blue ml-auto mr-md-2 mr-0" type="submit" 
+		onclick="document.getElementById('signInModal').style.display='block';">Sign In</button>
+
+		<button id="callSignUp" class="btn btn-outline-success btn-outline-success-blue mr-0" type="submit"
+		onclick="document.getElementById('signUpModal').style.display='block';">Sign Up</button>
+		
+		<div id="welcome" class="nav-item dropdown ml-auto hidden">
+			<a class="nav-link dropdown-toggle d-inline-flex my-auto welcomeLink" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Welcome
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			    <span class="dropdown-item pointer">Account</span>
+			    <div class="dropdown-divider"></div>
+			    <span class="dropdown-item pointer" onclick="signOut();">Sign Out</span>
+			</div>
+		</div>
+
+    </div>
+	
+</nav>
+
+<div id="sidebarOverlay" class="active"></div>
+
+<div id="sidebar" class="text-wrap sidebar w-150 active">
+	
+	<div id="account" class="d-inline-flex w-100 infoText sidebarOption pointer hidden">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-user align-middle pl-3 text-center size-20"></i>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 welcomeLink size-18" href="userPrivatePage.html">Account</a>
+		</div>
+	</div>	
+	
+	<div class="d-inline-flex w-100 infoText mt-3">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Tools</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-camera align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="document.getElementById('addPicModal').style.display='block';">Add Picture</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-map-marker align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="document.getElementById('addLocModal').style.display='block';">Add Location</span>
+		</div>
+	</div>
+
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-clock-o align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="document.getElementById('addTimeModal').style.display='block';">Add Time</span>
+		</div>
+	</div>		
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-clipboard align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="document.getElementById('addTagsModal').style.display='block';">Add Tags</span>
+		</div>
+	</div>	
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-pencil align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="addSection();">Add Section</span>
+		</div>
+	</div>	
+	
+	<div class="d-inline-flex w-100 infoText mt-3">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Preview</span>
+		</div>
+	</div>	
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-search align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="document.getElementById('previewSearchModal').style.display='block';">Search Result</span>
+		</div>
+	</div>	
+	
+	<hr>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-check align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="usrConfirmation();">Add Post</span>
+		</div>
+	</div>	
+	
+</div>
+		
+<script type="text/javascript">
+
+function usrConfirmation(){
+	var res = confirm("Are you sure you want to upload this post?");
+	if(res == true){
+		uploadPage();
+	}
+}
+
+//start of upload page function series
+function uploadPage(){
+
+	//initialized params object at each call
+	params = {
+		"title" : "",
+		"slideshow_img_list" : [],
+		"search_img" : "",
+		"section_title_list" : [],
+		"section_title_block" : "",
+		"section_content_list" : [],
+		"section_content_block" : "",
+		"iframe_src" : "",
+		"address" : {
+			"street" : "",
+			"city" : "",
+			"state" : "",
+			"zip" : "",
+			"latlong" : ""
+		}, //filled from extractAddressComp function
+		"openHours": {
+			"mon" : [],
+			"tue" : [],
+			"wed" : [],
+			"thu" : [],
+			"fri" : [],
+			"sat" : [],
+			"sun" : []
+		},
+		"monlit": true,
+		"tuelit": true,
+		"wedlit": true,
+		"thulit": true,
+		"frilit": true,
+		"satlit": true,
+		"sunlit": true,
+		//need to change these to 'tags' before final
+		"catagories": [],
+		"catagories_string" : ""
+	};
+	
+	params.title = document.getElementById("mainTitle").innerHTML;
+	
+	//upload to s3 for file hosting
+	uploadS3Slides();
+
+};
+
+var userImgBucket = 'ttd-service-image-storage';
+var regionDBS3 = 'us-west-1';
+var s3ImgHostPath = 'https://s3-' + regionDBS3 + '.amazonaws.com/' + userImgBucket + '/ttd/'; //change /ttd if want new folder
+
+AWS.config.update({
+  region: regionDBS3,
+  accessKeyId:'AKIAJ7K2NIQTW3TPDOWA',
+  secretAccessKey:'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'
+});
+
+var S3 = new AWS.S3({params: {Bucket: userImgBucket}});
+
+function generateRandomString(len){
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < len; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;	
+}
+
+function addRandString(str,len){
+	var tmp = str.split(".");
+	tmp[0] = tmp[0] + generateRandomString(len);
+	str = tmp.join(".");
+	return str;
+}
+
+function uploadS3Slides(){
+	if(slideFileList.length == 0){
+		alert("No unique slideshow images were added. Please add at least one then try again.");
+		return;
+	}
+
+	for(var k = 0; k < slideFileList.length; k++){
+		var imgFile = slideFileList[k];
+		
+		//generates useable name for image
+		s3imgNameCheck(imgFile, imgFile.name, false);
+	}
+	
+	//this only preforms uploadPage2() after successfull image upload
+	s3imgNameCheck(searchFile, searchFile.name, true);
+}
+
+function s3imgNameCheck(imgFile, imgFileName, search){
+	//check if img file path exists if it does and rand string to end path name
+	var params = {
+		Bucket: userImgBucket,
+		Key: "ttd/" + imgFileName
+	};
+	
+	 S3.getObject(params, function(err, data) {
+		if (err){// an error occurred, but this is actually good as this means there is no object with this name
+			//So really this is success
+			//should make error check so that it is object not found
+			console.log(err);
+			if(search){
+				uploadS3Search(imgFile, imgFile.name);
+			}else{
+				uploadSingleSlide(imgFile, imgFile.name);
+			}
+			
+		} 
+		else{// successful response	
+			console.log(data);
+ 			console.log("Generating new name");
+			var newName = addRandString(imgFileName,5); //5 is the length of rand string added
+			console.log(newName);
+			if(search){
+				uploadS3Search(imgFile, newName);
+			}else{
+				uploadSingleSlide(imgFile, newName);
+			}
+		}     
+	 });
+}	
+
+function uploadSingleSlide(imgFile, tmpName){
+		var params3 = {
+			Key: "ttd/" + tmpName,
+			ContentType: imgFile.type,
+			Body: imgFile,
+			ACL: 'public-read'
+		};
+		
+		if(objEmptyCheck(params3)){
+			alert("Error uploading slideshow images, probably no images were added");
+			return;
+		}		
+		
+		params.slideshow_img_list.unshift(s3ImgHostPath + tmpName);
+		// Upload the file to s3
+		S3.upload(params3, function(err, data) {
+			if (err) {
+				alert(err);
+			} else {
+				console.log(params.slideshow_img_list);
+				console.log("Image uploaded to s3 successfully!");
+			}
+		});	
+};
+
+function uploadS3Search(imgFile, imgName){
+
+	//imgFile.name = s3imgNameCheck(imgFile.name);
+
+	var params3 = {
+		Key: "ttd/" + imgName,
+		ContentType: imgFile.type,
+		Body: imgFile,
+		ACL: 'public-read'
+	};
+
+	if(objEmptyCheck(params3)){
+		alert("Error uploading your search result image, probably no image was added");
+		return;
+	}
+	
+	// Upload the file to s3
+	S3.upload(params3, function(err, data) {
+		if (err) {
+			alert(err);
+		} else {
+			console.log("Search Image uploaded to s3 successfully!");
+			params.search_img = s3ImgHostPath + imgName;
+			console.log(params.search_img);
+			
+		}
+	});
+	getPageData();
+}	
+
+function getPageData(){
+	//get section title and content into two arrays, probably more clear to make a section obj with a title and content param, but can do that later
+	for(var k = 0; k < document.getElementsByClassName("sectionTitle").length; k++){
+	
+		params.section_title_list.push(document.getElementsByClassName("sectionTitle")[k].innerHTML);
+		params.section_content_list.push(document.getElementsByClassName("sectionContent")[k].innerHTML);
+		
+	}
+	
+	//get iframe google map src
+	params.iframe_src = document.getElementById("googleStaticMap").src;
+	if(params.iframe_src == window.location.href){//problem with iframe cacheing map on reload of page
+		alert("There was a problem finding the location. Please follow the instructions and try again.");
+		return;
+	}
+	
+	params.address = extractAddressComp(document.getElementById("address").innerHTML);
+	
+	params.title = params.title.replace("<br>","");
+	
+	//clean up all text params
+	cleanText(params.title);
+	cleanText(params.section_title_list);
+	cleanText(params.section_title_block);
+	cleanText(params.section_content_list);
+	cleanText(params.section_content_block);
+	
+	
+	getTimes();
+	
+	params.catagories = getTags();
+	
+	console.log(params);
+	
+	return;
+	
+	rearrangeParam(params);
+}		
+
+function cleanText(str){
+	//can use this function to remove any html markup or format text in correct way
+	if(typeof str == "string"){
+		str = str.replace("<br>","");
+	}else if(typeof str == "object"){
+		for(var k in str){
+			k = k.replace("<br>","");
+		}
+	}	
+}
+
+function getTags(){
+
+	var tmp = document.getElementsByClassName("tagInput");
+	var list = [];
+	for(var k = 0; k < tmp.length; k++){
+		list.push(tmp[k].value);
+	}
+	return list;
+}
+
+function rearrangeParam(data){
+
+	//this function joins togeather the sections so it is a single string so it may be index and searched
+
+	data.section_title_block = data.section_title_list;
+	data.section_content_block = data.section_content_list;
+
+	for(var k = 0; k < data.section_content_block.length; k++){//add piece for later retrival parseing
+		data.section_content_block[k] = data.section_content_block[k] + "   ";
+		data.section_title_block[k] = data.section_title_block[k] + "   ";
+	}
+	
+	data.section_content_block = data.section_content_block.join();
+	data.section_title_block = data.section_title_block.join();
+	
+	//this part creates literals for days open in closed for future filtering
+	
+	params.catagories_string = data.catagories.join();
+	
+	idCheck(data);
+}
+
+var dynamodb = new AWS.DynamoDB();
+var docClient = new AWS.DynamoDB.DocumentClient();
+var dynamoSearchTable = 'ttdTest4';
+var dynamoFullTable = 'ttdFullData';
+
+function idCheck(dataObj){
+	
+	var params = {
+		TableName: dynamoFullTable,
+		Key: {
+			"title": { "S": dataObj.title},
+			"city": { "S": dataObj.address.city}
+		}
+	};
+	
+	dynamodb.getItem(params, function(err, data) {
+        if (err || jQuery.isEmptyObject(data)) {//cant find item in table, which means name is not taken
+			uploadDynamo(dataObj);
+        } else {
+			alert("There is already a post with the same name, please try another one");
+			return;
+        }
+    });
+	
+}
+
+function objEmptyCheck(obj){
+	var res = false;
+	$.each( obj, function( key, value ) {
+		if(value === undefined || value == ""){
+			//console.log("value is empty");
+			res = true;
+		}
+	});
+	return res;	
+}
+
+function uploadDynamo(dataObj){
+
+	if(objEmptyCheck(dataObj)){
+		console.log(dataObj);
+		alert("Required Fields are not complete.");
+		return;
+	}
+
+	AWS.config.update({
+	  accessKeyId:'AKIAJZH5MFCWDXTY7HHA',
+	  secretAccessKey:'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'
+	});
+
+	var paramFullDynamo = {
+		TableName : dynamoFullTable,
+		Item: {
+			"title": dataObj.title,
+			"section_content": dataObj.section_content_list,
+			"section_title": dataObj.section_title_list,
+			"searchimg": dataObj.search_img,
+			"city": dataObj.address.city,
+			"state": dataObj.address.state,
+			"street": dataObj.address.street,
+			"zip": dataObj.address.zip,
+			"location": dataObj.address.latlong,
+			"iframesrc": dataObj.iframe_src,
+			"openhours": dataObj.openHours,
+			"slideshowlist": dataObj.slideshow_img_list,
+			"catagories": dataObj.catagories
+		}
+	};
+	
+	docClient.put(paramFullDynamo, function(err, data) {
+		if (err) {
+			alert("Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2));
+		}else {
+			console.log("Dynamo PutItem succeeded: " + "\n" + JSON.stringify(data, undefined, 2));
+		}
+	});	
+	
+	var paramSearchDynamo = {
+		TableName : dynamoSearchTable,
+		Item: {
+			"title": dataObj.title,
+			"section_content": dataObj.section_content_block,
+			"section_title": dataObj.section_title_block,
+			"searchimg": dataObj.search_img,
+			"city": dataObj.address.city,
+			"state": dataObj.address.state,
+			"location": dataObj.address.latlong,
+			"monlit" : dataObj.monlit,
+			"tuelit" : dataObj.tuelit,
+			"wedlit" : dataObj.wedlit,
+			"thulit" : dataObj.thulit,
+			"frilit" : dataObj.frilit,
+			"satlit" : dataObj.satlit,
+			"sunlit" : dataObj.sunlit,
+			"catagories": dataObj.catagories_string
+		}	
+	};
+	
+	docClient.put(paramSearchDynamo, function(err, data) {
+		if (err) {
+			alert("Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2));
+		}else {
+			console.log("Search PutItem succeeded: " + "\n" + JSON.stringify(data, undefined, 2));
+			alert("Post Uploaded! Wait up to 1 minute for post to show up in searches.");
+		}
+	});	
+}
+//end of upload page function series
+
+function extractAddressComp(fullAddress){
+	//there are two cases:
+	//1) they have a full street address (3 len array)
+	//2) No street address just city, state, zip (2 len array)
+
+
+	var parse = fullAddress.split(",");
+	var street = city = state = zip = "";
+	
+	if(parse.length == 2){//no street address
+		city = parse[0].trim();
+		state = parse[parse.length-1].split(" ")[1].trim();
+		zip = parse[parse.length-1].split(" ")[2].trim();
+	}else{
+		street = parse[0].trim();
+		city = parse[1].trim();
+		state = parse[parse.length-1].split(" ")[1].trim();
+		zip = parse[parse.length-1].split(" ")[2].trim();	
+	}
+	
+	//console.log({"street":street,"city":city,"state":state,"zip":zip, "latlong":latlongTmp});
+	return {"street":street,"city":city,"state":state,"zip":zip, "latlong":latlongTmp};
+};
+
+function getTimes(){
+
+	if($("#alwaysOpenBtn").hasClass("active")){
+		params.openHours = "always";
+	}else{
+
+		var tStarts = document.getElementsByClassName("timeInputStart");
+		var tEnds = document.getElementsByClassName("timeInputEnd");
+		var tStart, tEnd;
+		
+		for(var k = 0; k < document.getElementsByClassName("timeRow").length; k++){
+		
+			if($(tStarts[k]).hasClass("disable")){
+				tStart = -1;
+			}else if(!tStarts[k].value){
+				tStart = 480;
+			}else{
+				tStart = parseTime(tStarts[k].value);
+			}
+			
+			if($(tEnds[k]).hasClass("disable")){
+				tEnd = -1;
+			}else if(!tEnds[k].value){
+				tEnd = 1020;
+			}else{
+				tEnd = parseTime(tEnds[k].value);
+			}
+			
+			switch(k){
+				case 0:
+					params.openHours.mon = [tStart,tEnd];
+					if(tStart == -1){
+						params.monlit = "false";
+					}else{
+						params.monlit = "true";
+					}
+					break;
+				case 1:
+					params.openHours.tue = [tStart,tEnd];
+					if(tStart == -1){
+						params.tuelit = "false";
+					}else{
+						params.tuelit = "true";
+					}
+					break;
+				case 2:
+					params.openHours.wed = [tStart,tEnd];
+					if(tStart == -1){
+						params.wedlit = "false";
+					}else{
+						params.wedlit = "true";
+					}
+					break;
+				case 3:
+					params.openHours.thu = [tStart,tEnd];
+					if(tStart == -1){
+						params.thulit = "false";
+					}else{
+						params.thulit = "true";
+					}
+					break;
+				case 4:
+					params.openHours.fri = [tStart,tEnd];
+					if(tStart == -1){
+						params.frilit = "false";
+					}else{
+						params.frilit = "true";
+					}
+					break;
+				case 5:
+					params.openHours.sat = [tStart,tEnd];
+					if(tStart == -1){
+						params.satlit = "false";
+					}else{
+						params.satlit = "true";
+					}
+					break;
+				case 6:
+					params.openHours.sun = [tStart,tEnd];
+					if(tStart == -1){
+						params.sunlit = "false";
+					}else{
+						params.sunlit = "true";
+					}
+				
+			}
+			
+		}
+	}
+};
+
+$(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.pageWrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+		
+    });
+});
+
+$(document).ready(function () {
+    $('#sidebarOverlay').on('click', function () {
+	
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.pageWrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+	
+    });
+});
+
+//these vars are defined below as sectionContainer is not yet created yet
+//var firstSec = document.getElementsByClassName(".sectionContainer")[0];
+
+
+function addSection(){
+
+	//may change this so that you can add sections based on where curosor position is 
+	//however whenever add section btn clicked this position is moved so if I want to do this need to think of something else
+
+	var tmpSec = firstSec.cloneNode(true);
+	
+	var content = $(tmpSec).children(".sectionContent")[0];
+	content.innerHTML = "Section content here...";
+	
+	document.getElementsByClassName('furtherInfo')[0].appendChild(tmpSec);
+	
+}
+
+function getSelectionStart() {
+   var node = document.getSelection().anchorNode;
+   return (node.nodeType == 3 ? node.parentNode : node);
+}
+
+function addProduct(){
+	//<div class="row product">
+	//	<div class="col-8 infoText my-2" contenteditable="true">Product description...</div>
+	//	<div class="col-4 my-2">
+	//		<button class="price btn btn-outline-success" type="submit" contenteditable="true">
+	//			$price...
+	//		</button>
+	//	</div>
+	//	<i class="fa fa-close fa-2x pt-1 closeBtn" style="position:absolute;right:-30px;"></i>
+	//</div>
+					
+	var row = document.createElement('div');
+	row.className = 'row product';
+	
+	var desc = document.createElement('div');
+	desc.className = 'col-8 infoText my-2';
+	desc.setAttribute('contenteditable','true');
+	desc.innerHTML = 'Product description...';
+	
+	var col = document.createElement('div');
+	col.className = 'col-4 my-2';
+	
+	var btn = document.createElement('button');
+	btn.className = 'price btn btn-outline-success';
+	btn.type = 'submit';
+	btn.setAttribute('contenteditable','true');
+	btn.innerHTML = '$price...';
+	
+	var icon = document.createElement('i');
+	icon.className = 'fa fa-close fa-2x pt-1 closeBtn productClose';
+	icon.style.position = 'absolute';
+	icon.style.right = '-30px';
+	
+	col.appendChild(btn);
+	
+	row.appendChild(desc);
+	row.appendChild(col);
+	row.appendChild(icon);
+	
+	document.getElementsByClassName('products')[0].appendChild(row);
+
+}					
+					
+</script>
+
+<!-- start of tools modules -->
+
+<!-- add picture modal -->
+<div id="addPicModal" class="modal picModal">
+
+  <div class="modal-content" style="width:500px;">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('addPicModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="row justify-content-center">
+			<button id="upload-photo-label" class="btn btn-outline-success btn-outline-success-blue mx-2 mt-4 mb-3" type="button">Upload Image</button>
+			<button id="deleteImgList" class="btn btn-outline-success deleteBtn mx-2 mt-4 mb-3" type="button">Delete Image</button>
+		</div>
+		<input type="file" name="photo" id="upload-photo" class="hidden" />
+		<div id="imgList" class="d-flex flex-row px-1 mx-2 mb-2 justify-content-start" style="height:150px;background:grey;overflow:auto;"></div>
+		<div class="row justify-content-center">
+			<button id="addSlideshow" class="btn btn-outline-success btn-outline-success-blue mx-auto mt-4 w-fixed-213" type="button">Add to slideshow</button>
+			<button id="removeSlideshow" class="btn btn-outline-success deleteBtn mx-auto mt-4 w-fixed-213" type="button">Remove from slideshow</button>
+		</div>
+		<div class="mx-auto mt-2 mb-3 size-13">(Aspect ratio 2:1)</div>
+		<div id="slideshowList" class="d-flex flex-row px-1 mx-2 mb-2 justify-content-start" style="height:150px;background:grey;overflow:auto;"></div>
+		<div class="row justify-content-center">
+			<button id="addSearch" class="btn btn-outline-success btn-outline-success-blue mx-auto mt-4 w-fixed-213" type="button">Add to search result</button>
+			<button id="removeSearch" class="btn btn-outline-success deleteBtn mx-auto mt-4 w-fixed-213" type="button">Remove from search result</button>
+		</div>
+		<div class="mx-auto mt-2 mb-4 size-13">(Aspect ratio 13:10)</div>
+		<button id="previewSearch" class="btn btn-outline-success btn-outline-success-blue mx-auto mb-4 w-fixed-213" type="button" 
+		onclick="document.getElementById('addPicModal').style.display='none';document.getElementById('previewSearchModal').style.display='block';">Preview search result</button>
+	</div>
+  </div>
+
+</div>
+
+<style>
+.imgListItem{
+	height:80%;
+	width:auto;
+}
+.slideshowListItem{
+	height:80%;
+	width:auto;
+}
+.activeImg{
+	box-shadow:0 0 3px 1px black;
+}
+.w-fixed-213{
+	width:213px !important;
+}
+.deleteBtn, deleteBtn:visited{
+	color:red !important;
+	border-color:red !important;
+	outline:none;
+}
+.deleteBtn:hover, .deleteBtn:active{
+	color:white !important;
+    background-color: red !important;
+}
+</style>
+
+<script>
+var firstSlide = false;
+slideFileList = [];
+searchFile = "";
+//initialized defaultSlideshowEl after main carousel div
+$(function() {
+	$(document).on("click", "#addSlideshow", function(){
+		
+		
+		if(checkAspectRatio(1/2)){
+
+			var img = $("#imgList").children(".activeImg");
+			
+			if(!firstSlide){//if this is the first slide added
+				$(defaultSlideshowEl).remove();
+				firstSlide = true;
+			}else{
+				if(document.getElementsByClassName("carousel-item-next")){//if slide is in transition state
+					$("#mainCarousel").children(".carousel-item-next").toggleClass("carousel-item-next");
+					$("#mainCarousel").children(".carousel-item-left").toggleClass("carousel-item-left");
+				}
+				if($("#carousel-control-next").hasClass("hidden")){
+					$("#carousel-control-next").toggleClass("hidden");
+					$("#carousel-control-prev").toggleClass("hidden");					
+				}
+				$("#mainCarousel").children(".active").toggleClass("active");
+				
+			}
+				
+			var div = document.createElement("div");
+			div.className = "carousel-item active";
+			
+			var newImg = document.createElement("img");
+			newImg.style.width = "100%";
+			newImg.style.height = "auto";
+			newImg.src = img.attr("src");
+			
+			$(div).append(newImg);
+			$("#mainCarousel").append(div);
+			
+			addImgList(img.attr("src"),"slideshowList");
+			
+			//create slideFileList for data upload call
+			var imgList = $("#imgList").children(".imgListItem");
+			for(var k = 0; k < imgList.length; k++){
+
+				if($(imgList[k]).hasClass("activeImg")){
+					slideFileList.unshift(fileList[k]);
+				}
+				
+			}
+		}
+	});
+});
+
+$(function() {
+	$(document).on("click", "#addSearch", function(){
+	
+		if(checkAspectRatio(10/13)){
+			var img = $("#imgList").children(".activeImg");
+			document.getElementById("card-img").src = $(img).attr("src");
+			document.getElementById('addPicModal').style.display='none';
+			document.getElementById('previewSearchModal').style.display='block';
+			
+			var imgList = $("#imgList").children(".imgListItem");
+			for(var k = 0; k < imgList.length; k++){
+
+				if($(imgList[k]).hasClass("activeImg")){
+					searchFile = fileList[k];
+				}
+			}
+			
+		}
+	
+	});
+});
+
+function checkAspectRatio(reqRatio){
+	var img = $("#imgList").children(".activeImg");
+
+	var ratio = $(img).height() / $(img).width();
+	console.log(ratio);
+	if((ratio < reqRatio + .01) && (ratio > reqRatio - .01)){
+		return true;
+	}else{
+		alert("Aspect ratio incorrect");
+		return false;
+	}
+}
+
+$(function() {
+	$(document).on("click", "#upload-photo-label", function(){
+		$("#upload-photo").click();
+	});
+});
+
+//need global fileList array for call on data upload function
+fileList = [];
+document.getElementById('upload-photo').onchange = function(event) {
+
+    var file = this.files[0];
+	fileList.unshift(this.files[0]); //for later upload call
+	//also need 'unshift' b/c I add images to front of list for better user experience
+	//very important files set to null or else if user deletes and tries to reupload same pic will not work!!
+	this.value = null;
+ 
+    var reader = new FileReader();
+    reader.onloadend = function(){
+
+		addImgList(reader.result,"imgList");
+    }	
+    if(file){
+        reader.readAsDataURL(file);
+    }else{
+		alert("upload error");
+    }
+}
+
+function addImgList(data,listID){
+
+	$("#"+listID).children(".activeImg").removeClass("activeImg");
+	
+	var img = document.createElement("img");
+	img.className = listID + "Item activeImg my-auto mx-1";
+	img.src = data;
+
+	$("#"+listID).prepend(img);
+}
+
+$(function() {
+	$(document).on("click", ".imgListItem", function(){
+	
+		$("#imgList").children(".activeImg").removeClass("activeImg");		
+		this.className += " activeImg";
+	
+	});
+});
+
+$(function(){
+	$(document).on("click",".slideshowListItem",function(){
+		
+		$("#slideshowList").children(".activeImg").removeClass("activeImg");
+		this.className += " activeImg";
+		
+	});
+});
+
+$(function() {
+	$(document).on("click", "#deleteImgList", function(){
+	
+		if($("#imgList").children(".activeImg")){
+			$("#imgList").children(".activeImg").remove();
+		}
+	
+	});
+});
+
+$(function() {
+	$(document).on("click", "#removeSlideshow", function(){
+	
+		if($("#slideshowList").children(".activeImg")){
+			var slideImg = $("#slideshowList").children(".activeImg");		
+			var carouselEls = document.getElementsByClassName("slideshowListItem");
+			
+			for(var k = 0; k < carouselEls.length; k++){
+
+				if (carouselEls[k].src == slideImg.attr("src")){
+					
+					if(document.getElementsByClassName("carousel-item")[k].classList.contains("active") || document.getElementsByClassName("carousel-item")[k].classList.contains("carousel-item-next")){//if active img is removed
+						if(document.getElementsByClassName("carousel-item")[k+1]){//case there are elements after
+							document.getElementsByClassName("carousel-item")[k+1].className += " active";
+						}else if(document.getElementsByClassName("carousel-item")[k-1]){
+							document.getElementsByClassName("carousel-item")[k+1].className += " active";
+						}
+					}
+					document.getElementsByClassName("carousel-item")[k].remove();
+					console.log($(".carousel-item"));
+					if($(".carousel-item").length == 0){//empty carousel
+						$("#mainCarousel").append(defaultSlideshowEl);
+						firstSlide = false;
+					}
+					break;
+				}
+			}
+			$("#slideshowList").children(".activeImg").remove();
+			if($("#slideshowList").children().length <= 1 && !($("#carousel-control-next").hasClass("hidden"))){
+				$("#carousel-control-next").toggleClass("hidden");
+				$("#carousel-control-prev").toggleClass("hidden");
+			}
+			console.log($("#slideshowList").children().length);
+		}
+	});
+});
+	
+//}
+</script>
+
+<!-- add google maps iframe place/location modal -->
+<div id="addLocModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('addLocModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="mx-2">Google Maps URL</div>
+		<input id="placeURL" type="text" class="mx-4" placeholder="Google Maps Place URL..." />
+		<div class="mx-2 mt-2">Address</div>
+		<input id="addressInput" type="text" class="mx-4" placeholder="Street Address, City, State ZIP" />
+		<button id="uploadPlace" class="btn btn-outline-success btn-outline-success-blue mx-4 mt-4 mb-2" type="submit">Upload Place</button>
+		<div class="ml-auto mr-2 mb-1"> <span id="locHelpText" class="textLink pointer">Need Help?</span> <i id="locHelpIcon" class="fa fa-caret-up pointer"></i></div>
+		<div id="locHelpInfo" class="hidden mx-2">
+		<span class="size-18">Google Maps URL:</span> <br>
+		1) go to www.google.com/maps <br>
+		2) find the place you are creating a page on by searching <br>
+		3) Once found copy and paste the URL into the the text box-shadow <br>
+		*<span class="size-13 pr-1"> As of now only URLs leading with (www.google.com/maps/place/) are useable</span> <br>
+		<span class="size-18">Address:</span> <br>
+		On same page of google maps located below the save button you can copy and paste the given address
+		</div>
+	</div>
+  </div>
+
+</div>
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvG_CQ-MplQROCyBbhWgXL_GkhaAcKfiE">
+</script>
+
+<script>
+$(function() {
+	$(document).on("click", "#locHelpText", function(){
+		locHelpClick($(this).parent().children("#locHelpIcon")[0]);
+	});
+});
+
+$(function() {
+	$(document).on("click", "#locHelpIcon", function(){
+		locHelpClick(this);
+	});
+});
+
+function locHelpClick(el){
+	if($(el).hasClass("fa-caret-up")){
+		$("#locHelpInfo").toggleClass("hidden");
+		$(el).removeClass("fa-caret-up");
+		$(el).addClass("fa-caret-down");
+	}else if($(el).hasClass("fa-caret-down")){
+		$("#locHelpInfo").toggleClass("hidden");
+		$(el).removeClass("fa-caret-down");
+		$(el).addClass("fa-caret-up");
+	}
+}
+
+
+
+$(function() {
+	$(document).on("click", "#uploadPlace", function(){
+
+		//https://www.google.com/maps/place/Space+Needle,+400+Broad+St,+Seattle,+WA+98109/@47.6205088,-122.3514743,17z/data=!3m1!4b1!4m5!3m4!1s0x54901545e1eec4d9:0x44cc7208c7c2e533!8m2!3d47.6204232!4d-122.3493552
+	
+		var url = document.getElementById("placeURL").value;
+		
+		var place = extractPlace(url);
+		console.log(place);
+		//construct google iframe make sure to put google api key on restriction before use and set in data js file
+		//https://www.google.com/maps/embed/v1/place?key=AIzaSyBvG_CQ-MplQROCyBbhWgXL_GkhaAcKfiE&q=Space+Needle,+400+Broad+St,+Seattle,+WA+98109
+		var srcURL = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBvG_CQ-MplQROCyBbhWgXL_GkhaAcKfiE&q=" + place;
+		document.getElementById("googleStaticMap").src = srcURL;
+		
+		extractLatLong(place);
+		
+		//this takes user input address and places it onto page
+		document.getElementById("address").innerHTML = document.getElementById("addressInput").value;
+		
+		var parse = document.getElementById("address").innerHTML.split(",");		
+		
+		var city = parse[parse.length-2];
+		if(city[0] == " "){//if space in front take it out
+			city = city.slice(1,city.length);
+		}
+		var state = parse[parse.length-1].split(" ")[1];
+		
+		document.getElementById("card-location").innerHTML = state + ", " + city; 
+		
+	});
+});
+
+function extractPlace(url){
+	var array = url.split("/");
+	
+	for(var k in array){
+		if(array[k] == "place"){
+			var j = parseInt(k) + 1;
+			return array[j.toString()];
+		}
+	}
+}
+
+function extractLatLong(place){
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ 'address': place }, function (results, status) {
+
+		if (status == google.maps.GeocoderStatus.OK) {
+			var latitude = results[0].geometry.location.lat();
+			var longitude = results[0].geometry.location.lng();
+			//global var to use for data extract
+			latlongTmp = latitude + "," + longitude;
+		}else{
+			alert('Latitude and Longitude could not be found because: ' + status);
+		}
+		
+    });
+}
+</script>
+
+<style>
+.input-group-addon{
+	padding:0;
+}
+.input-title{
+	width:92px !important;
+	background-color:#e9ecef;
+	border:1px solid rgba(0,0,0,.15);
+	border-radius:.25rem 0 0 .25rem;
+}
+.flatpickr-input{
+	border-radius:0;
+	background-color:white !important;
+}
+.timeInput{
+	width: calc(50% - 67px);
+}
+.timeInputEnd{
+	border-radius:0 .25rem .25rem 0;
+}
+.timeModal{
+	width:400px;
+}
+.openDay{
+	opacity:.6;
+	cursor:pointer;
+}
+.openDay:hover{
+	opacity:1;
+}
+.disable{
+	background-color:#e9ecef !important;
+}
+</style>
+
+<div id="addTimeModal" class="modal">
+
+  <div class="modal-content timeModal">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('addTimeModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="d-flex flex-row justify-content-center">
+			<div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+<!-- 		  <label class="btn btn-outline-success btn-outline-success-blue active">
+				<input type="radio" name="options" id="option1" autocomplete="off" checked> Event
+			  </label> -->
+			  <label id="openHoursBtn" class="btn btn-outline-success btn-outline-success-blue pointer active radioTimeBtn">
+				<input type="radio" name="options" id="option2" autocomplete="off"> Open Hours
+			  </label>
+			  <label id="alwaysOpenBtn" class="btn btn-outline-success btn-outline-success-blue pointer radioTimeBtn">
+				<input type="radio" name="options" id="option3" autocomplete="off"> Always Open
+			  </label>
+			</div>
+		</div>
+		<div id="timeContainer">
+			<div class="row timeRow justify-content-center">
+				<div class="input-title text-center pt-1">Monday</div>	
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" value="8:00" aria-describedby="btnGroupAddon" data-input /></div>
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" value="17:00" aria-describedby="btnGroupAddon" data-input></div>
+				<div class="my-auto">
+					<i class="openCloseDayBtn openDay fa fa-check size-20 ml-1"></i>
+					<i class="openCloseDayBtn fa fa-close closeBtn size-20 ml-1 hidden"></i>
+				</div>
+			</div>
+			<div class="row timeRow justify-content-center">
+				<div class="input-title text-center pt-1">Tuesday</div>	
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" value="8:00" aria-describedby="btnGroupAddon" data-input /></div>
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" value="17:00" aria-describedby="btnGroupAddon" data-input></div>
+				<div class="my-auto">
+					<i class="openCloseDayBtn openDay fa fa-check size-20 ml-1"></i>
+					<i class="openCloseDayBtn fa fa-close closeBtn size-20 ml-1 hidden"></i>
+				</div>		
+			</div>
+			<div class="row timeRow justify-content-center">
+				<div class="input-title text-center pt-1">Wednesday</div>	
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+				<div class="my-auto">
+					<i class="openCloseDayBtn openDay fa fa-check size-20 ml-1"></i>
+					<i class="openCloseDayBtn fa fa-close closeBtn size-20 ml-1 hidden"></i>
+				</div>		
+			</div>
+			<div class="row timeRow justify-content-center">
+				<div class="input-title text-center pt-1">Thursday</div>	
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+				<div class="my-auto">
+					<i class="openCloseDayBtn openDay fa fa-check size-20 ml-1"></i>
+					<i class="openCloseDayBtn fa fa-close closeBtn size-20 ml-1 hidden"></i>
+				</div>		
+			</div>
+			<div class="row timeRow justify-content-center">
+				<div class="input-title text-center pt-1">Friday</div>	
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+				<div class="my-auto">
+					<i class="openCloseDayBtn openDay fa fa-check size-20 ml-1"></i>
+					<i class="openCloseDayBtn fa fa-close closeBtn size-20 ml-1 hidden"></i>
+				</div>		
+			</div>
+			<div class="row timeRow justify-content-center">
+				<div class="input-title text-center pt-1">Saturday</div>	
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+				<div class="my-auto">
+					<i class="openCloseDayBtn openDay fa fa-check size-20 ml-1"></i>
+					<i class="openCloseDayBtn fa fa-close closeBtn size-20 ml-1 hidden"></i>
+				</div>		
+			</div>
+			<div class="row timeRow justify-content-center mb-1">
+				<div class="input-title text-center pt-1">Sunday</div>	
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+				<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+				<div class="my-auto">
+					<i class="openCloseDayBtn openDay fa fa-check size-20 ml-1"></i>
+					<i class="openCloseDayBtn fa fa-close closeBtn size-20 ml-1 hidden"></i>
+				</div>		
+			</div>
+		</div>
+		
+	</div>
+  </div>
+
+</div>
+
+<script>
+$(function() {
+	$(document).on("click", ".radioTimeBtn", function(){
+		
+		var input = $(this).children()[0];
+		
+		if(input.id == "option2"){
+			if($("#timeContainer").hasClass("hidden")){//non repeat click
+				
+				$("#timeContainer").toggleClass("hidden");
+				$("#openHours").toggleClass("hidden");
+				document.getElementById("openTitle").innerHTML = "Open Hours";
+					
+			}
+		}
+		else if(input.id == "option3"){
+			if(!($("#timeContainer").hasClass("hidden"))){
+			
+				$("#timeContainer").toggleClass("hidden");
+				$("#openHours").toggleClass("hidden");
+				document.getElementById("openTitle").innerHTML = "Open 24/7";				
+				
+			}
+		}
+		
+
+	});
+});
+
+const fp = flatpickr('.timePicker',{
+    enableTime: true,
+	wrap: true,
+	noCalendar: true,
+});
+$(".form-control").change(function(){
+	updateTime();
+});
+
+$(function() {
+	$(document).on("click", ".openCloseDayBtn", function(){
+		var btns = $(this).parent().children();
+		$(btns[0]).toggleClass("hidden");
+		$(btns[1]).toggleClass("hidden");
+		
+		var inputsPar = $(this).parent().parent().children(".timeInput");
+		
+		var input0 = $(inputsPar[0]).children()[0];
+		var input1 = $(inputsPar[1]).children()[0];
+		
+		var dayDivPar = $(this).parent().parent().children(".input-title");
+		var dayDiv = dayDivPar[0];
+		
+		$(input0).attr('disabled', function(_, attr){ return !attr});
+		$(input0).toggleClass("disable");
+		$(input1).attr('disabled', function(_, attr){ return !attr});
+		$(input1).toggleClass("disable");
+		$(dayDiv).attr('disabled', function(_, attr){ return !attr});
+		$(dayDiv).toggleClass("disable");
+		
+		var day = dayDiv.innerHTML.substring(0,3);
+		
+		$("#"+day).toggleClass("hidden");
+		
+		var cdayList = getClosedList();
+		
+		if(cdayList.length != 0){
+
+			if($("#closedContainer").hasClass("hidden")){
+				$("#closedContainer").toggleClass("hidden");
+			}
+			var st = cdayList.join();
+			var list = st.replace(",",", ");
+			
+			var find = ',';
+			var re = new RegExp(find, 'g');
+
+			list = list.replace(re, ', ');
+			
+			document.getElementById("closedDays").innerHTML = list;
+		}else{
+			if(!$("#closedContainer").hasClass("hidden")){
+				$("#closedContainer").toggleClass("hidden");
+			}
+		}
+	});
+});
+
+function getClosedList(){
+	var closedList = [];
+	var list = document.getElementsByClassName("input-title");
+	for(var k = 0; k < list.length; k++){
+		if($(list[k]).hasClass("disable")){
+			closedList.push(list[k].innerHTML.substring(0,3));
+		}
+	}
+	return closedList;
+}
+
+function updateTime(){
+	var inputStart = document.getElementsByClassName("timeInputStart");
+	var inputEnd = document.getElementsByClassName("timeInputEnd");
+	var start = document.getElementsByClassName("timeStart");
+	var end = document.getElementsByClassName("timeEnd");
+	
+	//clean up later use function below more
+	for(var k in inputStart){
+		if(inputStart[k].value && inputStart[k].value < "12:00"){
+			start[k].innerHTML = inputStart[k].value + " a.m.";
+		}else if(inputStart[k].value){
+			var tmp = parseTime(inputStart[k].value);
+			start[k].innerHTML = formatTime(tmp) + " p.m.";
+		}
+		if(inputEnd[k].value && inputEnd[k].value < "12:00"){
+			end[k].innerHTML = inputEnd[k].value + " a.m.";
+		}else if(inputEnd[k].value){
+			var tmp = parseTime(inputEnd[k].value);
+			end[k].innerHTML = formatTime(tmp) + " p.m.";
+		}
+	}
+};
+
+function parseTime(s) {
+	var c = s.split(':');
+	return parseInt(c[0]) * 60 + parseInt(c[1]);
+};
+
+function formatTime(s){
+	var hr = Math.floor(s/60);
+	if(hr > 12){
+		hr = hr - 12;
+	}
+	var min = s%60;
+	if(min < 10){
+		min = "0" + min;
+	}
+	return hr + ":" + min;
+};
+</script>
+
+<!-- start of add catagories modul -->
+
+<div id="addTagsModal" class="modal">
+
+  <div class="modal-content" style="width:400px;">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('addTagsModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+	<div class="tagModulContent d-flex flex-column justify-content-center mb-3">
+		
+		<div class="mx-4">Select and add the tags that fit your post</div>
+		<button id="addTagsBtn" class="btn btn-outline-success btn-outline-success-blue ml-4 mt-2 mb-1" type="submit" style="width:150px;">Add Tags</button>
+		<div class="tagContainer d-flex flex-row mx-4 my-1">
+		
+		<div class="input-group">
+			<button class="hashtagWidth input-group-addon size-18 nopointer justify-content-center bold">#</button>
+			<input list="browsers" name="browser" class="tagInput form-control size-18">
+			<datalist id="browsers">
+				<!-- This list should be dynamically made later -->
+				<option value="Outdoors">
+				<option value="Sports">
+				<option value="Games">
+			</datalist>
+		</div>
+
+		<button class="d-flex close mx-1 tagCloseBtn" type="submit">
+			<i class="fa fa-close closeBtn"></i>
+		</button>
+		</div>
+
+	</div>
+  </div>
+
+</div>
+
+<style>
+.hashtagWidth{
+	width:20px;
+}
+.width-auto{
+	width:auto !important;
+}
+</style>
+
+<script>
+//used for node.clone below
+tagContainer = document.getElementsByClassName("tagContainer")[0];
+
+$(function() {
+	$(document).on("click", "#addTagsBtn", function(){
+
+		addTagInputGrp();
+
+	});
+});
+
+function addTagInputGrp(inputValue){
+	var tmpContainer = tagContainer.cloneNode(true);
+	var tagInput = $(tmpContainer).children(".input-group").children(".tagInput")[0];
+	if(inputValue){
+		tagInput.value = inputValue;
+	}else{
+		tagInput.value = "";
+	}
+		
+	var modulContainer = document.getElementsByClassName("tagModulContent")[0];
+	
+	$(modulContainer).append(tmpContainer);	
+}
+	
+$(function() {
+	$(document).on("click", ".tagCloseBtn", function(){
+		console.log(this);
+		var btnList = document.getElementsByClassName("tagCloseBtn");
+		if(btnList.length <= 1){
+			alert("Must have at least one tag.");
+		}else{
+			$($(this).parent()).remove()
+		}
+	});
+});
+</script>
+
+<!-- end of add catagories modul -->
+
+<!-- end of tools modules -->
+
+<!-- start of preview tool modules -->
+<div id="previewSearchModal" class="modal">
+
+  <div class="modal-content" style="width:500px;">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('previewSearchModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+	<div class="d-flex justify-content-center" style="background:#fafafa;">
+		<div class="card my-4 col-6">
+			<img id="card-img" class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/ttd/default-search.png" alt="">
+			<div class="card-body">
+				<span id="card-location" class="card-location notActiveInfo">STATE, City</span>
+				<h4 id="cardTitle" class="card-info card-title title">Title Here...</h4>
+			</div>
+		</div>
+	</div>
+  </div>
+
+</div>
+<!-- end of preview tool modules -->
+
+<div class="row pageWrapper justify-content-center d-flex mt-4 active">
+
+	<div class="col-md-9 col-sm-10 col-12 pageContainer">
+		<div class="row">
+			
+			
+			<div class="col-12">
+				<div id="mainTitle" class="logo d-flex my-0" contenteditable="true">Title Here...</div>
+				<hr>
+			</div>
+			
+			<script>
+			$(function() {
+				$(document).on("keydown keyup keypress", "#mainTitle", function(){
+				
+					document.getElementById("cardTitle").innerHTML = this.innerHTML;
+					
+				});
+			});
+			</script>
+			
+			<!-- start of main column -->
+			<div class="col-8 pr-4">
+				
+				<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+					<div id="mainCarousel" class="carousel-inner" role="listbox">
+						<div class="carousel-item active">
+							<img class="" width="100%" height="auto;" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/ttd/default3.jpg" alt="First slide">
+						</div>
+					</div>
+					<a id="carousel-control-prev" class="carousel-control-prev hidden" href="#carouselExampleControls" role="button" data-slide="prev">
+						<span class="fa fa-chevron-circle-left fa-2x" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a id="carousel-control-next" class="carousel-control-next hidden" href="#carouselExampleControls" role="button" data-slide="next">
+						<span class="fa fa-chevron-circle-right fa-2x" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+				
+<!-- 				<img class="hidden" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/ttd/default3.jpg">
+ -->				
+				<hr>
+				
+				<div class="furtherInfo">
+					<div class="sectionContainer">
+						<div class="d-flex flex-row">
+							<div class="title size-22 sectionTitle" contenteditable="true" style="overflow:hidden;">Section Title...</div>
+							<div class="d-flex flex-column ml-auto mr-4 pr-2 sectionMove">
+								<i class="fa fa-caret-up sectionMoveUp pointer" title="Move Section Up"></i>
+								<i class="fa fa-caret-down sectionMoveDown pointer" title="Move Section Down"></i>
+							</div>
+							<i class="fa fa-close fa-2x pr-2 closeBtn sectionClose" title="Close Section"></i>
+						</div>
+						<p class="infoText size-18 sectionContent" contenteditable="true">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem...Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem...Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem...Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem...</p>
+						<hr>
+					</div>
+				</div>
+				
+				<style>
+				.sectionMoveUp, .sectionMoveDown{
+					opacity:.6;
+				}
+				.sectionMoveUp:hover, .sectionMoveDown:hover{
+					opacity:1;
+				}
+				.sectionClose{
+					position:absolute;
+					right:15px;
+				}
+				</style>
+				  
+				<script>	
+				
+				//clone node for use in addSection() function above
+				var firstSec = document.getElementsByClassName("sectionContainer")[0];
+				
+				$(function() {
+					$(document).on("click", ".sectionMoveUp", function(){				
+				
+					moveSection(this);
+				
+				    });
+				});
+				
+				$(function() {
+					$(document).on("click", ".sectionMoveDown", function(){				
+				
+					moveSection(this);
+				
+				    });
+				});
+				
+				function moveSection(el){
+					//gonna do this by grabbing the section title and content of both sections and swapping them
+					
+					//1 moves down, -1 moves up
+					var upOrDown = 1;
+					if($(el).hasClass("sectionMoveUp")){
+						upOrDown = -1;
+					}
+					
+					var sectionArr = document.getElementsByClassName("sectionContainer");
+					
+					var clickedSection = $(el).parent().parent().parent()[0];
+					
+					for(var i = 0; i < sectionArr.length; i++){
+						if(clickedSection == sectionArr[i]){
+							var clickedSectionNum = i;
+							var clickedSectionTitle = $(sectionArr[i]).children(".flex-row").children(".sectionTitle")[0].innerHTML;
+							var clickedSectionContent =  $(sectionArr[i]).children(".sectionContent")[0].innerHTML;
+							
+							if($(sectionArr[i + upOrDown]).children(".flex-row").children(".sectionTitle")[0]){
+								var moveSectionTitle = $(sectionArr[i + upOrDown]).children(".flex-row").children(".sectionTitle")[0].innerHTML;
+							}else{//there is no valid movement so dont do anything
+								return;
+							}
+							
+							var moveSectionContent =  $(sectionArr[i + upOrDown]).children(".sectionContent")[0].innerHTML;
+							
+							//need if statements for edge case
+							
+							$(sectionArr[i + upOrDown]).children(".flex-row").children(".sectionTitle")[0].innerHTML = clickedSectionTitle;
+							$(sectionArr[i + upOrDown]).children(".sectionContent")[0].innerHTML = clickedSectionContent;
+							
+							$(sectionArr[i]).children(".flex-row").children(".sectionTitle")[0].innerHTML = moveSectionTitle;
+							$(sectionArr[i]).children(".sectionContent")[0].innerHTML = moveSectionContent;							
+							
+						}
+					}
+				}
+				
+				var defaultSlideshowEl = $("#mainCarousel").children(".active");			
+				$(function() {
+					$(document).on("click", ".sectionClose", function(){
+					
+						console.log(this.parentNode.parentNode);
+						
+						$(this.parentNode.parentNode).remove();
+					
+				    });
+				});
+
+				$(function() {
+					$(document).on("keydown", ".sectionContent", function(event){
+					
+						if(event.keyCode == 8 || event.keyCode == 46)
+							if(this.innerHTML.length < 1 && !($(this).hasClass("hidden"))){//on backspace or delete 
+							//check if content is empty or not
+							this.className += " hidden";
+						}
+					
+				    });
+				});		
+
+				$(function() {
+					$(document).on("keydown", ".sectionTitle", function(event){
+					
+						if(event.keyCode == 8 || event.keyCode == 46)
+							if(this.innerHTML.length < 1 && !($(this).hasClass("hidden"))){//on backspace or delete 
+							//check if content is empty or not
+							this.className += " hidden";
+						}
+					
+				    });
+				});					
+				
+				</script>				
+				
+			</div>
+			<!-- end of main column -->
+			
+			<!-- start of side column -->
+			<div class="col-4">
+				<iframe id="googleStaticMap" src="" width="100%" height="270px" frameborder="0" style="border:0;background-size:100% 270px;background-image:url(https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/ttd/map2.jpg)" allowfullscreen></iframe>
+				<hr>
+				<div id="address" class="notActiveInfo location">Street Address, City, State ZIP</div>
+				<hr>
+				<div id="openTitle" class="notActiveInfo date">Open Hours</div>
+				<div id="openHours" class="flex-column ml-3">
+					<div id="Mon" class="notActiveInfo">Mon: <span class="timeStart">8:00 a.m.</span> - <span class="timeEnd">5:00 p.m.</span></div>
+					<div id="Tue" class="notActiveInfo">Tue: <span class="timeStart">8:00 a.m.</span> - <span class="timeEnd">5:00 p.m.</span></div>
+					<div id="Wed" class="notActiveInfo">Wed: <span class="timeStart">8:00 a.m.</span> - <span class="timeEnd">5:00 p.m.</span></div>
+					<div id="Thu" class="notActiveInfo">Thu: <span class="timeStart">8:00 a.m.</span> - <span class="timeEnd">5:00 p.m.</span></div>
+					<div id="Fri" class="notActiveInfo">Fri: <span class="timeStart">8:00 a.m.</span> - <span class="timeEnd">5:00 p.m.</span></div>
+					<div id="Sat" class="notActiveInfo">Sat: <span class="timeStart">8:00 a.m.</span> - <span class="timeEnd">5:00 p.m.</span></div>
+					<div id="Sun" class="notActiveInfo">Sun: <span class="timeStart">8:00 a.m.</span> - <span class="timeEnd">5:00 p.m.</span></div>
+				</div>
+				<div id="closedContainer" class="hidden">
+					<div id="closed" class="notActiveInfo date">Closed</div>
+					<div class="flex-column ml-3">
+						<div id="closedDays" class="notActiveInfo"></div>
+					</div>
+				</div>
+				<hr>
+				
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<!-- delete product on close click -->
+<script>
+$(function() {
+	$(document).on("click", ".productClose", function(){
+					
+		console.log(this.parentNode);
+					
+		$(this.parentNode).remove();
+					
+    });
+});
+</script>
+
+
+<script>
+$('#carouselExampleControls').carousel({
+  interval: 6000
+})
+$('#suggCarouselExampleControls').carousel({
+  interval: false
+})
+</script>
+
+<!-- Sign In Modal -->
+<div id="signInModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signInModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign in with your username and password</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="textLink ml-2 text-left" type="submit"
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('forgotPasswordModal').style.display='block';">Forgot your password?</button>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" onclick="verifySignIn();">Sign In</button>
+		<div class="modal-text justify-content-center text-center">Need an account? <button class="textLink" 
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('signUpModal').style.display='block';">Sign Up</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signUpModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signUpModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign up with a new account</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Email</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('codeVerificationModal').style.display='block';">Sign Up</button>
+		<div class="modal-text justify-content-center text-center">Already have an account? <button class="textLink" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('signInModal').style.display='block';">Sign In</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Forgot password Modal -->
+<div id="forgotPasswordModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('forgotPasswordModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Forgot your password?</div>
+		<div class="modal-text my-2">Enter your username below and we will send a message to your email to reset your password</div>
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('forgotPasswordModal').style.display='none';document.getElementById('passwordResetModal').style.display='block';">Reset my password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- Password Reset Modal -->
+<div id="passwordResetModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('passwordResetModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a password reset code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">New Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('passwordResetModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Change password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- account verified Modal -->
+<div id="accountVerifiedModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('accountVerifiedModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text text-center">Your account has been verified</div>
+		<div class="title text-center my-2">Thank You</div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Code Verification Modal -->
+<div id="codeVerificationModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('codeVerificationModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('codeVerificationModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Confirm Account</button>
+		<div class="modal-text justify-content-center text-center">Didnt recieve a code? <button class="textLink">Resend It</button></div>
+	</div>
+  </div>
+
+</div>
+
+<script>
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == document.getElementById('signInModal')) {
+        document.getElementById('signInModal').style.display = "none";
+    }else if(event.target == document.getElementById('signUpModal')){
+		document.getElementById('signUpModal').style.display = "none";
+	}else if(event.target == document.getElementById('forgotPasswordModal')){
+		document.getElementById('forgotPasswordModal').style.display = "none";
+	}else if(event.target == document.getElementById('accountVerifiedModal')){
+		document.getElementById('accountVerifiedModal').style.display = "none";
+	}else if (event.target == document.getElementById('addPicModal')) {
+        document.getElementById('addPicModal').style.display = 'none';
+    }else if (event.target == document.getElementById('addLocModal')) {
+        document.getElementById('addLocModal').style.display = 'none';
+    }else if (event.target == document.getElementById('addTimeModal')) {
+        document.getElementById('addTimeModal').style.display = 'none';
+    }else if (event.target == document.getElementById('previewSearchModal')) {
+        document.getElementById('previewSearchModal').style.display = 'none';
+    }else if (event.target == document.getElementById('addTagsModal')) {
+        document.getElementById('addTagsModal').style.display = 'none';
+    }
+}
+
+//sign in verification script which changes buttons on success
+function verifySignIn(){
+	
+	//once integrate with aws this is where verification script would been
+	var signIn = true;
+	
+	//change usr displays
+	if(signIn){
+		document.getElementById('signInModal').style.display='none';
+		$('#callSignIn').toggleClass('hidden');
+		$('#callSignUp').toggleClass('hidden');
+		$('#welcome').toggleClass('hidden');
+		$('#account').toggleClass('hidden');
+	}
+	
+	
+}
+
+function signOut(){
+	$('#callSignIn').toggleClass('hidden');
+	$('#callSignUp').toggleClass('hidden');
+	$('#welcome').toggleClass('hidden');
+	$('#account').toggleClass('hidden');
+}
+</script>
+
+</body>
+</html>

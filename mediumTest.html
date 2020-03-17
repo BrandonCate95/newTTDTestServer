@@ -1,0 +1,23 @@
+
+<script>
+
+var objNew = {
+  'title':{S:'hello bitch!'},
+  'section_s': {S:'hello again bitch!!'},
+  'page_s': {S:'biiiiiiiiiiiittttttttttttttttccccccccccccccccchhhhhhhhhhhhhhhhhhhh'}
+}
+
+var data = {fields:{}};
+
+for (var key in objNew) {
+  // skip loop if the property is from prototype
+  if (!objNew.hasOwnProperty(key)) continue;
+  console.log(key + " = " + objNew[key]);
+
+  data.fields[key] = objNew[key].S;
+}
+
+console.log(data);
+</script>
+
+

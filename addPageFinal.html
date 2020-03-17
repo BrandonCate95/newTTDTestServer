@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- star rating scripts page:http://gjunge.github.io/rateit.js/examples/#ex_2d -->
+<script src="rateit.js-master/scripts/jquery.rateit.min.js"></script>
+<link rel="stylesheet" href="rateit.js-master/scripts/rateit.css">
+
+<!-- query ui for positioning close buttons -->
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+
+<!-- date/time picker script -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>  
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<style>
+hr{
+	margin:15px 0;
+}
+.price{
+	width:100%;
+	padding:0;
+	height:30px;
+	text-align:center;
+	color:#34a65e;
+}
+.rating{
+	font-size:13px;
+	color:#439cdb;
+}
+.unchecked {
+    color: white;
+	text-shadow: -1px 0 #6db3ff, 0 1px #6db3ff, 1px 0 #6db3ff, 0 -1px #6db3ff;
+}
+.fa-check{
+	color:#34a65e;
+}
+.carousel-control-prev,.carousel-control-prev:focus, .carousel-control-next,.carousel-control-next:focus {
+	opacity:.8;
+    width: 4%;
+}
+.suggCarouselControl{
+	top:-50%;
+}
+.mainCarouselImg{
+	width:100%;
+	max-height:400px;
+	height:auto;
+}
+</style>
+
+<!-- common style -->
+<style>
+/* utilities */
+.hidden{
+	display:none !important;
+}
+.visible{
+	display:auto !important;
+}
+.bold{
+	font-weight:bold;
+}
+.size-20{
+	font-size:20px !important;
+}
+.size-22{
+	font-size:22px !important;
+}
+.size-18{
+	font-size:18px !important;
+}
+.size-13{
+	font-size:13px !important;
+}
+.unbold{
+	font-weight:normal;
+}
+.nopointer{
+	cursor:auto;
+}
+.pointer{
+	cursor:pointer;
+}
+.no-border{
+	border:none;
+}
+/* end utilities */
+
+/* button */
+button{
+	cursor:pointer;
+}
+button:focus{
+	outline:none;
+}
+.btn:focus{
+	box-shadow:none;
+}
+.btn-outline-success-blue{
+	color:#439cdb;
+	border-color:#439cdb;
+}
+.btn-outline-success-blue:hover,.btn-outline-success-blue.active{
+	background:#439cdb;
+	border-color:#439cdb;
+	box-shadow:none;
+}
+.closeBtn{
+	color:red;
+	cursor:pointer;
+	opacity:.6;
+}
+.closeBtn:hover{
+	opacity:1;
+}
+.deEmphasisSearchBtn{
+	background:white;
+	border:none;
+}
+.deEmphasisNaviconBtn{
+	background:none;
+	border:none;
+}
+/* end button */
+
+/* card */
+.card{
+	padding:0;
+	border:none;
+	margin:0;
+	background:#fafafa;
+	height;auto;
+	font-family:Helvetica;
+}
+.card-body{
+	padding:0;
+}
+.card-img-top,.card-body{
+	cursor:pointer;
+}
+.card-info{
+	margin:0;
+}
+.card:nth-of-type(3n+3){
+	padding:0;
+	padding-left:15px;
+}
+.card:nth-of-type(3n+2){
+	padding:0;
+	padding-right:7.5px;
+	padding-left:7.5px;
+}
+.card:nth-of-type(3n+1){
+	padding:0;
+	padding-right:15px;
+}
+@media (max-width:768px){
+	.card:nth-of-type(2n+1){
+		padding:0;
+		padding-right:15px;
+	}
+	.card:nth-of-type(2n){
+		padding:0;
+		padding-left:15px;
+	}
+}
+/* end card */
+
+/* images */
+img,iframe{
+	border-radius:5px;
+}
+.userLogo img{
+	width:50px;
+	height:50px;
+}
+/* end images */
+
+
+/* text */
+.logo{
+	font-size:30px;
+	font-weight:bold;
+	line-height:1;
+}
+.miscInfoText{
+	font-size:14px;
+	color:#999999;
+}
+.notActiveInfo{
+	font-weight:bold;
+	font-size:13px;
+	color:#7397d1;
+}
+.title{
+	font-weight:bold;
+	font-size:17px;
+	color:#555555;
+}
+.textLink{
+	color:#439cdb;
+	border:none;
+	background:none;
+	padding:0;
+	margin:0;
+	display:inline-block;
+}
+.textLink:hover{
+	color:#3e64a3;
+}
+.welcomeLink{
+	color:#555555 !important;
+	font-size:17px;
+}
+.welcomeLink:hover{
+	color:#555555 !important;
+	text-decoration:none;
+}
+.userName{
+	font-family:Helvetica;
+	font-weight:bold;
+	font-size:17px;
+}
+.infoText{
+	font-size:15px;
+	color:#676767;
+}
+/* end text */
+
+/* other */
+i{
+	color:#439cdb;
+}
+.filter{
+	width:auto !important;
+}
+.filter-addon{
+	font-size:14px;
+	cursor:pointer;
+}
+.filter .input-group-addon{
+	padding:5px 7px;
+}
+@media (max-width: 670px) {
+	.filter-addon {
+		font-size:12px;
+	}
+}
+.nav-link.active{
+	background-color:#fafafa !important;
+}
+.rateit .rateit-preset{
+	color:#439cdb;
+}
+.rateit-font{
+	font-size:17px;
+}
+.rateit-font .rateit-range > div{
+	cursor:pointer !important;
+}
+.container{
+	padding:0;
+}
+/* end other */
+
+</style>
+
+<!-- NavBar Style -->
+<style>
+.minw-150{
+	min-width:200px;
+}
+.w-150{
+	width:200px;
+}
+#callSignUp{
+	display:auto;
+}
+@media (max-width:768px){
+	#callSignUp{
+		display:none;
+	}
+}
+.navbar{
+	z-index:5;
+	background:white !important;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<!-- search results style -->
+<style>
+.searchResultsContainer{
+	margin-left:200px;
+	transition: all 0.2s;
+}
+.searchResultsContainer.active{
+	margin-left:30px;
+}
+
+/* search bar */
+.searchWidth {
+    width: 100%;
+}
+@media (max-width: 992px){
+	.searchWidth{
+		padding:0 30px;
+	}
+	.searchResultsContainer,.searchResultsContainer.active{
+		margin-left:0px;
+	}
+}
+@media (min-width: 992px){
+	.searchWidth {
+		width: 800px;
+	}
+}
+/* end search bar */
+
+</style>
+
+<!-- modal style -->
+<style>
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 7; 
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    margin: auto;
+    padding: 5px;
+    border: 1px solid #888;
+    width: 350px;
+}
+.modal-text{
+	font-size:16px;
+	color:#555555;
+}
+</style>
+
+<!-- sidebar style -->
+<style>
+.sidebar{
+	position:fixed;
+	top:46px;
+	height:100%;
+	background:white;
+	word-wrap:break-word;
+	overflow-y:auto;
+	transition: all 0.2s;
+	margin-left:-200px;
+	z-index:5;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.wrapper,.pageWrapper,.userpageWrapper{
+	padding-top:46px;
+	z-index:1;
+	background:#fafafa;
+	transition: all 0.2s;
+}
+.sidebar.active{
+	margin-left:0px;
+}
+.wrapper.active,.userpageWrapper.active{
+	margin-left:200px;
+}
+.pageWrapper.active{
+	margin-left:40px;
+}
+@media (min-width:992px) and (max-width:1150px){
+	.pageWrapper.active{
+		margin-left:10%;
+	}
+}
+@media (min-width:1150px) and (max-width:1300px){
+	.pageWrapper.active{
+		margin-left:5%;
+	}
+}
+#sidebarOverlay{
+	position:fixed;
+	display:none;
+	width:100%;
+	height:100%;
+}
+@media (max-width:992px){
+	.wrapper.active,.pageWrapper.active,.userpageWrapper.active{
+		margin-left:0px;
+	}
+	#sidebarOverlay.active{
+		display:inline;
+		z-index:2;
+		background-color: rgb(0,0,0);
+		background: rgba(0, 0, 0, 0.7);
+	}
+}
+.fa-circle{
+	color:#e9ecef;
+}
+.fa-circle.active{
+	color:white;
+}
+.sidebarOption:hover{
+	background:#e9ecef;
+}
+.col-2,.col-3,.col-4,.col-8,.col-9,.col-12{
+	padding:0;
+}
+.row{
+	margin-left:0;
+	margin-right:0;
+}
+.dropdown-menu.show{
+	left:-50px;
+}
+.dropdown-toggle::after{
+	margin-top:10px;
+}
+</style>
+
+<!-- add page css -->
+<style>
+[contenteditable]:focus {
+    outline: 0px solid transparent;
+}
+</style>
+
+
+</head>
+<body>
+
+<nav class="d-flex w-100 py-1 px-0 mx-0 navbar navbar-expand navbar-light fixed-top">	
+	
+	<div class="d-inline-flex minw-150 infoText size-18">
+		<div class="flex-row w-100">	
+			<span id="sidebarCollapse" class="col-3 fa-stack align-middle ml-3 text-center pointer">
+			  <i id="sidebarCollapseCircle" class="fa fa-circle fa-stack-2x align-middle icon-background active"></i>
+			  <i class="fa fa-navicon fa-stack-1x align-middle size-20"></i>
+			</span>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 mb-1" href="index.html">Logo Name</a>
+		</div>
+	</div>
+	
+	<div class="pr-0 mx-0 searchWidth visible">
+		<div class="input-group">
+			<input type="text" class="form-control no-border" placeholder="Search for...">
+			<button class="deEmphasisSearchBtn input-group-addon">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</div><!-- /input-group -->
+	</div>
+		
+
+    <div class="d-flex ml-auto px-2">
+		
+		<button id="callSignIn" class="btn btn-outline-success btn-outline-success-blue ml-auto mr-md-2 mr-0" type="submit" 
+		onclick="document.getElementById('signInModal').style.display='block';">Sign In</button>
+
+		<button id="callSignUp" class="btn btn-outline-success btn-outline-success-blue mr-0" type="submit"
+		onclick="document.getElementById('signUpModal').style.display='block';">Sign Up</button>
+		
+		<div id="welcome" class="nav-item dropdown ml-auto hidden">
+			<a class="nav-link dropdown-toggle d-inline-flex my-auto welcomeLink" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Welcome
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			    <span class="dropdown-item pointer">Account</span>
+			    <div class="dropdown-divider"></div>
+			    <span class="dropdown-item pointer" onclick="signOut();">Sign Out</span>
+			</div>
+		</div>
+
+    </div>
+	
+</nav>
+
+<div id="sidebarOverlay" class="active"></div>
+
+<div id="sidebar" class="text-wrap sidebar w-150 active">
+	
+	<div id="account" class="d-inline-flex w-100 infoText sidebarOption pointer hidden">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-user align-middle pl-3 text-center size-20"></i>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 welcomeLink size-18" href="userPrivatePage.html">Account</a>
+		</div>
+	</div>	
+	
+	<div class="d-inline-flex w-100 infoText mt-3">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Tools</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-camera align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="document.getElementById('addPicModal').style.display='block';">Add Picture</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-map-marker align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="document.getElementById('addLocModal').style.display='block';">Add Location</span>
+		</div>
+	</div>
+
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-clock-o align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="document.getElementById('addTimeModal').style.display='block';">Add Time</span>
+		</div>
+	</div>	
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-usd align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="addProduct();">Add Product</span>
+		</div>
+	</div>	
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-pencil align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18" onclick="addSection();">Add Section</span>
+		</div>
+	</div>	
+	
+</div>
+		
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.pageWrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+		
+    });
+});
+
+$(document).ready(function () {
+    $('#sidebarOverlay').on('click', function () {
+	
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.pageWrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+	
+    });
+});
+
+function addSection(){
+	
+	//<div class="sectionContainer">
+	//	<div class="d-flex flex-row sectionTitle">
+	//		<div class="title size-22" contenteditable="true" style="overflow:hidden;">Section Title</div>
+	//		<i id="close" class="fa fa-close fa-2x pr-2 ml-auto closeBtn"></i>
+	//	</div>
+	//	<p class="infoText size-18" contenteditable="true">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
+	//	<hr>
+	//</div>
+
+	
+	var container = document.createElement('div');
+	container.className = 'sectionContainer';
+	
+	var row = document.createElement('div');
+	row.className = 'd-flex flex-row sectionTitle';
+	
+	var title = document.createElement('div');
+	title.className = 'title size-22';
+	title.setAttribute('contenteditable','true');
+	title.style.overflow = 'hidden';
+	title.innerHTML = 'Section Title';
+	
+	var icon = document.createElement('i');
+	icon.className = 'fa fa-close fa-2x pr-2 ml-auto closeBtn sectionClose';
+	
+	var para = document.createElement('p');
+	para.className = 'infoText size-18';
+	para.setAttribute('contenteditable','true');
+	para.innerHTML = 'section content';
+	
+	var hr = document.createElement('hr');
+	
+	row.appendChild(title);
+	row.appendChild(icon);
+	
+	container.appendChild(row);
+	container.appendChild(para);
+	container.appendChild(hr);
+	
+	document.getElementsByClassName('furtherInfo')[0].appendChild(container);
+	
+}
+
+function addProduct(){
+	//<div class="row product">
+	//	<div class="col-8 infoText my-2" contenteditable="true">Product description...</div>
+	//	<div class="col-4 my-2">
+	//		<button class="price btn btn-outline-success" type="submit" contenteditable="true">
+	//			$price...
+	//		</button>
+	//	</div>
+	//	<i class="fa fa-close fa-2x pt-1 closeBtn" style="position:absolute;right:-30px;"></i>
+	//</div>
+					
+	var row = document.createElement('div');
+	row.className = 'row product';
+	
+	var desc = document.createElement('div');
+	desc.className = 'col-8 infoText my-2';
+	desc.setAttribute('contenteditable','true');
+	desc.innerHTML = 'Product description...';
+	
+	var col = document.createElement('div');
+	col.className = 'col-4 my-2';
+	
+	var btn = document.createElement('button');
+	btn.className = 'price btn btn-outline-success';
+	btn.type = 'submit';
+	btn.setAttribute('contenteditable','true');
+	btn.innerHTML = '$price...';
+	
+	var icon = document.createElement('i');
+	icon.className = 'fa fa-close fa-2x pt-1 closeBtn productClose';
+	icon.style.position = 'absolute';
+	icon.style.right = '-30px';
+	
+	col.appendChild(btn);
+	
+	row.appendChild(desc);
+	row.appendChild(col);
+	row.appendChild(icon);
+	
+	document.getElementsByClassName('products')[0].appendChild(row);
+
+}					
+					
+</script>
+
+<!-- start of tools modules -->
+
+<!-- add picture modal -->
+<div id="addPicModal" class="modal">
+
+  <div class="modal-content" style="width:500px;">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('addPicModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<button id="upload-photo-label" class="btn btn-outline-success btn-outline-success-blue mx-auto mt-4 w-50" type="button">Upload Image</button>
+		<input type="file" name="photo" id="upload-photo" class="hidden" />
+		<div class="mx-auto mt-2 mb-3 size-13">(Aspect ratio 2:1)</div>
+		<div id="imgList" class="d-flex flex-row px-1 mx-2 mb-2 justify-content-start" style="height:150px;background:grey;overflow:auto;"></div>
+		<button id="addSlideshow" class="btn btn-outline-success btn-outline-success-blue mx-auto mt-4 w-50" type="button">Add to page slideshow</button>
+		<button id="addSearch" class="btn btn-outline-success btn-outline-success-blue mx-auto my-4 w-50" type="button">Add to search result</button>
+	</div>
+  </div>
+
+</div>
+
+<style>
+.imgListItem{
+	height:80%;
+	width:auto;
+}
+.activeImg{
+	box-shadow:0 0 3px 1px black;
+}
+</style>
+
+<script>
+$(function() {
+	$(document).on("click", "#addSlideshow", function(){
+		var img = document.getElementsByClassName("activeImg")[0];
+		var ratio = $(img).height() / $(img).width();
+		
+		if((ratio < (1/2) + .05) && (ratio > (1/2) - .05)){
+			$("#mainCarousel").children(".active").toggleClass("active");
+			
+			var div = document.createElement("div");
+			div.className = "carousel-item active";
+			
+			var newImg = document.createElement("img");
+			newImg.style.width = "100%";
+			newImg.style.height = "auto";
+			newImg.src = img.src;
+			
+			$(div).append(newImg);
+			$("#mainCarousel").append(div);
+		}else{
+			alert("Aspect ratio incorrect");		
+		}
+	});
+});
+
+$(function() {
+	$(document).on("click", "#upload-photo-label", function(){
+		$("#upload-photo").click();
+	});
+});
+
+document.getElementById('upload-photo').onchange = function(event) {
+
+    var fileList = this.files[0];
+	//very important files set to null or else if user deletes and tries to reupload same pic will not work!!
+	this.value = null;
+ 
+    var reader = new FileReader();
+    reader.onloadend = function(){
+
+		addImgList(reader.result);
+    }	
+    if(fileList){
+        reader.readAsDataURL(fileList);
+    }else{
+		alert("upload error");
+    }
+}
+
+function addImgList(data){
+
+	var prevActive = document.getElementsByClassName("activeImg");
+	$(prevActive[0]).removeClass("activeImg");
+	
+	var img = document.createElement("img");
+	img.className = "imgListItem activeImg my-auto mx-1";
+	img.src = data;
+
+	$("#imgList").prepend(img);
+}
+
+$(function() {
+	$(document).on("click", ".imgListItem", function(){
+	
+		var prevActive = document.getElementsByClassName("activeImg");
+		$(prevActive[0]).removeClass("activeImg");
+		
+		this.className += " activeImg";
+		document.getElementById("img1").src = this.src;
+	
+	});
+});
+
+$(function() {
+	$(document).on("click", "#deleteImgBtn", function(){
+	
+		var delListImg = document.getElementsByClassName("activeImg");
+		$(delListImg[0]).remove();
+		
+		if(document.getElementsByClassName("imgListItem")[0]){
+			var imgList = document.getElementsByClassName("imgListItem");
+			imgList[0].className += " activeImg";
+			document.getElementById("img1").src = imgList[0].src;
+		}else{//empty image list
+			document.getElementById("img1").src = "#";
+			document.getElementById("img1").className += " hidden";
+		}
+	
+	});
+});
+</script>
+
+<!-- add google maps iframe place/location modal -->
+<div id="addLocModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('addLocModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<input id="placeURL" type="text" class="mx-2" placeholder="Google Maps Place URL..." />
+		<button id="uploadPlace" class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit">Upload Place</button>
+	</div>
+  </div>
+
+</div>
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvG_CQ-MplQROCyBbhWgXL_GkhaAcKfiE">
+</script>
+
+<script>
+$(function() {
+	$(document).on("click", "#uploadPlace", function(){
+
+		//https://www.google.com/maps/place/Space+Needle,+400+Broad+St,+Seattle,+WA+98109/@47.6205088,-122.3514743,17z/data=!3m1!4b1!4m5!3m4!1s0x54901545e1eec4d9:0x44cc7208c7c2e533!8m2!3d47.6204232!4d-122.3493552
+	
+		var url = document.getElementById("placeURL").value;
+		
+		var place = extractPlace(url);
+		console.log(place);
+		//construct google iframe make sure to put google api key on restriction before use and set in data js file
+		//https://www.google.com/maps/embed/v1/place?key=AIzaSyBvG_CQ-MplQROCyBbhWgXL_GkhaAcKfiE&q=Space+Needle,+400+Broad+St,+Seattle,+WA+98109
+		var srcURL = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBvG_CQ-MplQROCyBbhWgXL_GkhaAcKfiE&q=" + place;
+		document.getElementById("googleStaticMap").src = srcURL;
+		
+		extractLatLong(place);
+	});
+});
+
+function extractPlace(url){
+	var array = url.split("/");
+	
+	for(var k in array){
+		if(array[k] == "place"){
+			var j = parseInt(k) + 1;
+			return array[j.toString()];
+		}
+	}
+}
+
+function extractLatLong(place){
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ 'address': place }, function (results, status) {
+
+		if (status == google.maps.GeocoderStatus.OK) {
+			var latitude = results[0].geometry.location.lat();
+			var longitude = results[0].geometry.location.lng();
+			console.log(latitude,longitude);
+		}else{
+			alert('Latitude and Longitude could not be found because: ' + status);
+		}
+		
+    });
+}
+</script>
+
+<style>
+.input-group-addon{
+	padding:0;
+}
+.input-title{
+	width:92px !important;
+	background-color:#e9ecef;
+	border:1px solid rgba(0,0,0,.15);
+	border-radius:.25rem 0 0 .25rem;
+}
+.flatpickr-input{
+	border-radius:0;
+	background-color:white !important;
+}
+.timeInput{
+	width: calc(50% - 47px);
+}
+.timeInputEnd{
+	border-radius:0 .25rem .25rem 0;
+}
+</style>
+
+<div id="addTimeModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('addTimeModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="d-flex flex-row justify-content-center">
+			<div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+<!-- 		  <label class="btn btn-outline-success btn-outline-success-blue active">
+				<input type="radio" name="options" id="option1" autocomplete="off" checked> Event
+			  </label> -->
+			  <label class="btn btn-outline-success btn-outline-success-blue pointer active">
+				<input type="radio" name="options" id="option2" autocomplete="off"> Open Hours
+			  </label>
+			  <label class="btn btn-outline-success btn-outline-success-blue pointer">
+				<input type="radio" name="options" id="option3" autocomplete="off"> Always Open
+			  </label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-title text-center pt-1">Monday</div>	
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+		</div>
+		<div class="row">
+			<div class="input-title text-center pt-1">Tuesday</div>	
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+		</div>
+		<div class="row">
+			<div class="input-title text-center pt-1">Wednesday</div>	
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+		</div>
+		<div class="row">
+			<div class="input-title text-center pt-1">Thursday</div>	
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+		</div>
+		<div class="row">
+			<div class="input-title text-center pt-1">Friday</div>	
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+		</div>
+		<div class="row">
+			<div class="input-title text-center pt-1">Saturday</div>	
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+		</div>
+		<div class="row">
+			<div class="input-title text-center pt-1">Sunday</div>	
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputStart" placeholder="Start time" aria-describedby="btnGroupAddon" data-input /></div>
+			<div class="input-button timePicker timeInput" title="toggle" data-toggle><input type="text" class="form-control timeInputEnd" placeholder="End time" aria-describedby="btnGroupAddon" data-input></div>
+		</div>
+		
+	</div>
+  </div>
+
+</div>
+
+<script>
+const fp = flatpickr('.timePicker',{
+    enableTime: true,
+	wrap: true,
+	noCalendar: true,
+});
+$(".form-control").change(function(){
+	updateTime();
+});
+function updateTime(){
+	var inputStart = document.getElementsByClassName("timeInputStart");
+	var inputEnd = document.getElementsByClassName("timeInputEnd");
+	var start = document.getElementsByClassName("timeStart");
+	var end = document.getElementsByClassName("timeEnd");
+	
+	for(var k in inputStart){
+		start[k].innerHTML = inputStart[k].value;
+		end[k].innerHTML = inputEnd[k].value;
+	}
+};
+</script>
+
+<!-- end of tools modules -->
+
+<div class="row pageWrapper justify-content-center d-flex mt-4 active">
+
+	<div class="col-md-9 col-sm-10 col-12 pageContainer">
+		<div class="row">
+			
+			
+			<div class="col-12">
+				<div class="logo d-flex my-0" contenteditable="true">Title Here...</div>
+				<hr>
+			</div>
+
+			
+			<!-- start of main column -->
+			<div class="col-8 pr-4">
+				
+				<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+					<div id="mainCarousel" class="carousel-inner" role="listbox">
+						<div class="carousel-item active">
+							<img width="100%" height="auto;" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/ttd/default3.jpg" alt="First slide">
+						</div>
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+						<span class="fa fa-chevron-circle-left fa-2x" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+						<span class="fa fa-chevron-circle-right fa-2x" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+				
+				<hr>
+				
+				<div class="d-flex flex-row">
+					
+					
+					<div class="userLogo mr-2">
+						<img src="images/logo2.jpg">
+					</div>
+					
+					<div class="d-flex flex-column w-100">
+						<div class="d-flex flex-row">
+							<div class="userName">
+								<a href="#" class="textLink">SirBakesAlot</a>
+							</div>
+							<div class="d-flex ml-auto infoText">
+								<p class="mb-0">Trusted? <i class="fa fa-check" aria-hidden="true"></i></p>
+							</div>
+						</div>
+						<div class="d-flex flex-row infoText">
+							This is description of companny or individual
+						</div>
+					</div>
+
+				</div>	
+
+				<hr>
+				
+				<div class="furtherInfo">
+					<div class="sectionContainer">
+						<div class="d-flex flex-row sectionTitle">
+							<div class="title size-22" contenteditable="true" style="overflow:hidden;">Section Title...</div>
+							<i class="fa fa-close fa-2x pr-2 ml-auto closeBtn sectionClose"></i>
+						</div>
+						<p class="infoText size-18" contenteditable="true">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem...</p>
+						<hr>
+					</div>
+				</div>
+				  
+				<script>				
+				$(function() {
+					$(document).on("click", ".sectionClose", function(){
+					
+						console.log(this.parentNode.parentNode);
+						
+						$(this.parentNode.parentNode).remove();
+					
+				    });
+				});
+				</script>
+				
+				<div class="title size-22 d-flex mb-2">Similar Suggestions</div>
+				<!-- similar things -->
+				<div class="d-flex flex-row">
+				  
+					<div id="suggCarouselExampleControls" class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner" role="listbox">
+							<div class="carousel-item active">
+								<div class="d-flex flex-row">
+								
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+								
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>														
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>									
+								</div>	
+							</div>
+							<div class="carousel-item">
+								<div class="d-flex flex-row">								
+									
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									
+								</div>	
+							</div>
+
+						</div>
+						<a class="carousel-control-prev suggCarouselControl nopointer" href="#suggCarouselExampleControls" role="button" data-slide="prev">
+							<span class="fa fa-chevron-circle-left fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next suggCarouselControl nopointer" href="#suggCarouselExampleControls" role="button" data-slide="next">
+							<span class="fa fa-chevron-circle-right fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+
+				</div>
+				
+
+<script>
+
+$(document).ready(function () {
+    $('.card-img-top').on('click', function () {
+
+		var pos = this.parentElement.children.length - 1;
+		var link = this.parentElement.children[pos];	
+		link.click();
+
+	});
+});
+
+$(document).ready(function () {
+    $('.card-body').on('click', function () {
+
+		var pos = this.parentElement.children.length - 1;
+		var link = this.parentElement.children[pos];	
+		link.click();
+
+	});
+});
+
+</script>
+				
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs d-flex mt-4" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active title unbold" data-toggle="tab" href="#reviews" role="tab">Reviews</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link title unbold" data-toggle="tab" href="#questions" role="tab">Questions</a>
+					</li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="reviews" role="tabpanel">
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is the actual review. I give sirbakesalot alot out of 5
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is the actual review. I give sirbakesalot alot out of 5
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is the actual review. I give sirbakesalot alot out of 5
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is the actual review. I give sirbakesalot alot out of 5
+								</div>
+							</div>
+						</div>
+						<hr>
+					</div>
+					<div class="tab-pane" id="questions" role="tabpanel">
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+					</div>
+				</div>
+				
+				
+			</div>
+			<!-- end of main column -->
+			
+			<!-- start of side column -->
+			<div class="col-4">
+				<iframe id="googleStaticMap" src="" width="100%" height="270px" frameborder="0" style="border:0;background-size:100% 270px;background-image:url(https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/ttd/map2.jpg)" allowfullscreen></iframe>
+				<hr>
+				<div class="notActiveInfo location">State, City &#8729; Address</div>
+				<hr>
+					<div class="notActiveInfo date">Open Hours</div>
+					<div class="flex-column ml-3">
+						<div class="notActiveInfo">Mon: <span class="timeStart">8:00</span> - <span class="timeEnd">9:00</span></div>
+						<div class="notActiveInfo">Tue: <span class="timeStart">8:00</span> - <span class="timeEnd">9:00</span></div>
+						<div class="notActiveInfo">Wed: <span class="timeStart">8:00</span> - <span class="timeEnd">9:00</span></div>
+						<div class="notActiveInfo">Thu: <span class="timeStart">8:00</span> - <span class="timeEnd">9:00</span></div>
+						<div class="notActiveInfo">Fri: <span class="timeStart">8:00</span> - <span class="timeEnd">9:00</span></div>
+						<div class="notActiveInfo">Sat: <span class="timeStart">8:00</span> - <span class="timeEnd">9:00</span></div>
+						<div class="notActiveInfo">Sun: <span class="timeStart">8:00</span> - <span class="timeEnd">9:00</span></div>
+					</div>
+				<hr>
+				<div class="rateit d-inline-flex my-auto" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+				<span>&#8729; </span>
+				<a class="reviewNum" href="#reviews">116</a>
+				<hr>
+				<div class="products">
+				
+					<div class="row product">
+						<div class="col-8 infoText my-2" contenteditable="true">Product description...</div>
+						<div class="col-4 my-2">
+							<button class="price btn btn-outline-success" type="submit" contenteditable="true">
+								$price...
+							</button>
+						</div>
+						<i class="fa fa-close fa-2x pt-1 closeBtn productClose" style="position:absolute;right:-30px;"></i>
+					</div>
+					
+				</div>
+				<hr>
+				
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<!-- delete product on close click -->
+<script>
+$(function() {
+	$(document).on("click", ".productClose", function(){
+					
+		console.log(this.parentNode);
+					
+		$(this.parentNode).remove();
+					
+    });
+});
+</script>
+
+
+<script>
+$('#carouselExampleControls').carousel({
+  interval: 6000
+})
+$('#suggCarouselExampleControls').carousel({
+  interval: false
+})
+</script>
+
+<!-- Sign In Modal -->
+<div id="signInModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signInModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign in with your username and password</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="textLink ml-2 text-left" type="submit"
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('forgotPasswordModal').style.display='block';">Forgot your password?</button>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" onclick="verifySignIn();">Sign In</button>
+		<div class="modal-text justify-content-center text-center">Need an account? <button class="textLink" 
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('signUpModal').style.display='block';">Sign Up</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signUpModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signUpModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign up with a new account</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Email</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('codeVerificationModal').style.display='block';">Sign Up</button>
+		<div class="modal-text justify-content-center text-center">Already have an account? <button class="textLink" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('signInModal').style.display='block';">Sign In</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Forgot password Modal -->
+<div id="forgotPasswordModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('forgotPasswordModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Forgot your password?</div>
+		<div class="modal-text my-2">Enter your username below and we will send a message to your email to reset your password</div>
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('forgotPasswordModal').style.display='none';document.getElementById('passwordResetModal').style.display='block';">Reset my password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- Password Reset Modal -->
+<div id="passwordResetModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('passwordResetModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a password reset code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">New Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('passwordResetModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Change password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- account verified Modal -->
+<div id="accountVerifiedModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('accountVerifiedModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text text-center">Your account has been verified</div>
+		<div class="title text-center my-2">Thank You</div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Code Verification Modal -->
+<div id="codeVerificationModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('codeVerificationModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('codeVerificationModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Confirm Account</button>
+		<div class="modal-text justify-content-center text-center">Didnt recieve a code? <button class="textLink">Resend It</button></div>
+	</div>
+  </div>
+
+</div>
+
+<script>
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == document.getElementById('signInModal')) {
+        document.getElementById('signInModal').style.display = "none";
+    }else if(event.target == document.getElementById('signUpModal')){
+		document.getElementById('signUpModal').style.display = "none";
+	}else if(event.target == document.getElementById('forgotPasswordModal')){
+		document.getElementById('forgotPasswordModal').style.display = "none";
+	}else if(event.target == document.getElementById('accountVerifiedModal')){
+		document.getElementById('accountVerifiedModal').style.display = "none";
+	}else if (event.target == document.getElementById('addPicModal')) {
+        document.getElementById('addPicModal').style.display = 'none';
+    }else if (event.target == document.getElementById('addLocModal')) {
+        document.getElementById('addLocModal').style.display = 'none';
+    }else if (event.target == document.getElementById('addTimeModal')) {
+        document.getElementById('addTimeModal').style.display = 'none';
+    }
+}
+
+//sign in verification script which changes buttons on success
+function verifySignIn(){
+	
+	//once integrate with aws this is where verification script would been
+	var signIn = true;
+	
+	//change usr displays
+	if(signIn){
+		document.getElementById('signInModal').style.display='none';
+		$('#callSignIn').toggleClass('hidden');
+		$('#callSignUp').toggleClass('hidden');
+		$('#welcome').toggleClass('hidden');
+		$('#account').toggleClass('hidden');
+	}
+	
+	
+}
+
+function signOut(){
+	$('#callSignIn').toggleClass('hidden');
+	$('#callSignUp').toggleClass('hidden');
+	$('#welcome').toggleClass('hidden');
+	$('#account').toggleClass('hidden');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- star rating scripts page:http://gjunge.github.io/rateit.js/examples/#ex_2d -->
+<script src="rateit.js-master/scripts/jquery.rateit.min.js"></script>
+<link rel="stylesheet" href="rateit.js-master/scripts/rateit.css">
+
+<!-- aws api -->
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<style>
+hr{
+	margin:15px 0;
+}
+.price{
+	width:100%;
+	padding:0;
+	height:30px;
+	text-align:center;
+	color:#34a65e;
+}
+.rating{
+	font-size:13px;
+	color:#439cdb;
+}
+.unchecked {
+    color: white;
+	text-shadow: -1px 0 #6db3ff, 0 1px #6db3ff, 1px 0 #6db3ff, 0 -1px #6db3ff;
+}
+.fa-check{
+	color:#34a65e;
+}
+.carousel-control-prev,.carousel-control-prev:focus, .carousel-control-next,.carousel-control-next:focus {
+	opacity:.8;
+    width: 4%;
+}
+.suggCarouselControl{
+	top:-50%;
+}
+.mainCarouselImg{
+	width:100%;
+	max-height:400px;
+	height:auto;
+}
+</style>
+
+<!-- common style -->
+<style>
+/* utilities */
+.hidden{
+	display:none !important;
+}
+.visible{
+	display:auto !important;
+}
+.bold{
+	font-weight:bold;
+}
+.size-20{
+	font-size:20px !important;
+}
+.size-22{
+	font-size:22px !important;
+}
+.size-18{
+	font-size:18px !important;
+}
+.unbold{
+	font-weight:normal;
+}
+.nopointer{
+	cursor:auto;
+}
+.pointer{
+	cursor:pointer;
+}
+.no-border{
+	border:none;
+}
+/* end utilities */
+
+/* button */
+button{
+	cursor:pointer;
+}
+button:focus{
+	outline:none;
+}
+.btn:focus{
+	box-shadow:none;
+}
+.btn-outline-success-blue{
+	color:#439cdb;
+	border-color:#439cdb;
+}
+.btn-outline-success-blue:hover{
+	background:#439cdb;
+}
+.closeBtn{
+	cursor:pointer;
+	color:red;
+	position:absolute;
+	top:0;
+	right:3px;
+}
+.closeBtn:hover{
+	color:bc0101;
+}
+.deEmphasisSearchBtn{
+	background:white;
+	border:none;
+}
+.deEmphasisNaviconBtn{
+	background:none;
+	border:none;
+}
+/* end button */
+
+/* card */
+.card{
+	padding:0;
+	border:none;
+	margin:0;
+	background:#fafafa;
+	height;auto;
+	font-family:Helvetica;
+}
+.card-body{
+	padding:0;
+}
+.card-img-top,.card-body{
+	cursor:pointer;
+}
+.card-info{
+	margin:0;
+}
+.card:nth-of-type(3n+3){
+	padding:0;
+	padding-left:15px;
+}
+.card:nth-of-type(3n+2){
+	padding:0;
+	padding-right:7.5px;
+	padding-left:7.5px;
+}
+.card:nth-of-type(3n+1){
+	padding:0;
+	padding-right:15px;
+}
+@media (max-width:768px){
+	.card:nth-of-type(2n+1){
+		padding:0;
+		padding-right:15px;
+	}
+	.card:nth-of-type(2n){
+		padding:0;
+		padding-left:15px;
+	}
+}
+/* end card */
+
+/* images */
+img,iframe{
+	border-radius:5px;
+}
+.userLogo img{
+	width:50px;
+	height:50px;
+}
+/* end images */
+
+
+/* text */
+.logo{
+	font-size:30px;
+	font-weight:bold;
+	line-height:1;
+}
+.miscInfoText{
+	font-size:14px;
+	color:#999999;
+}
+.notActiveInfo{
+	font-weight:bold;
+	font-size:13px;
+	color:#7397d1;
+}
+.title{
+	font-weight:bold;
+	font-size:17px;
+	color:#555555;
+}
+.textLink{
+	color:#439cdb;
+	border:none;
+	background:none;
+	padding:0;
+	margin:0;
+	display:inline-block;
+}
+.textLink:hover{
+	color:#3e64a3;
+}
+.welcomeLink{
+	color:#555555 !important;
+	font-size:17px;
+}
+.welcomeLink:hover{
+	color:#555555 !important;
+	text-decoration:none;
+}
+.userName{
+	font-family:Helvetica;
+	font-weight:bold;
+	font-size:17px;
+}
+.infoText{
+	font-size:15px;
+	color:#676767;
+}
+/* end text */
+
+/* other */
+i{
+	color:#439cdb;
+}
+.filter{
+	width:auto !important;
+}
+.filter-addon{
+	font-size:14px;
+	cursor:pointer;
+}
+.filter .input-group-addon{
+	padding:5px 7px;
+}
+@media (max-width: 670px) {
+	.filter-addon {
+		font-size:12px;
+	}
+}
+.nav-link.active{
+	background-color:#fafafa !important;
+}
+.rateit .rateit-preset{
+	color:#439cdb;
+}
+.rateit-font{
+	font-size:17px;
+}
+.rateit-font .rateit-range > div{
+	cursor:pointer !important;
+}
+.container{
+	padding:0;
+}
+/* end other */
+
+</style>
+
+<!-- NavBar Style -->
+<style>
+.minw-150{
+	min-width:200px;
+}
+.w-150{
+	width:200px;
+}
+#callSignUp{
+	display:auto;
+}
+@media (max-width:768px){
+	#callSignUp{
+		display:none;
+	}
+}
+.navbar{
+	z-index:5;
+	background:white !important;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<!-- search results style -->
+<style>
+.searchResultsContainer{
+	margin-left:200px;
+	transition: all 0.2s;
+}
+.searchResultsContainer.active{
+	margin-left:30px;
+}
+
+/* search bar */
+.searchWidth {
+    width: 100%;
+}
+@media (max-width: 992px){
+	.searchWidth{
+		padding:0 30px;
+	}
+	.searchResultsContainer,.searchResultsContainer.active{
+		margin-left:0px;
+	}
+}
+@media (min-width: 992px){
+	.searchWidth {
+		width: 800px;
+	}
+}
+/* end search bar */
+
+</style>
+
+<!-- modal style -->
+<style>
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 7; 
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    margin: auto;
+    padding: 5px;
+    border: 1px solid #888;
+    width: 350px;
+}
+.modal-text{
+	font-size:16px;
+	color:#555555;
+}
+</style>
+
+<!-- sidebar style -->
+<style>
+.sidebar{
+	position:fixed;
+	top:46px;
+	height:100%;
+	background:white;
+	word-wrap:break-word;
+	overflow-y:auto;
+	transition: all 0.2s;
+	margin-left:-200px;
+	z-index:5;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.wrapper,.pageWrapper,.userpageWrapper{
+	padding-top:46px;
+	z-index:1;
+	background:#fafafa;
+	transition: all 0.2s;
+}
+.sidebar.active{
+	margin-left:0px;
+}
+.wrapper.active,.userpageWrapper.active{
+	margin-left:200px;
+}
+.pageWrapper.active{
+	margin-left:40px;
+}
+@media (min-width:992px) and (max-width:1150px){
+	.pageWrapper.active{
+		margin-left:10%;
+	}
+}
+@media (min-width:1150px) and (max-width:1300px){
+	.pageWrapper.active{
+		margin-left:5%;
+	}
+}
+#sidebarOverlay{
+	position:fixed;
+	display:none;
+	width:100%;
+	height:100%;
+}
+@media (max-width:992px){
+	.wrapper.active,.pageWrapper.active,.userpageWrapper.active{
+		margin-left:0px;
+	}
+	#sidebarOverlay.active{
+		display:inline;
+		z-index:2;
+		background-color: rgb(0,0,0);
+		background: rgba(0, 0, 0, 0.7);
+	}
+}
+.fa-circle{
+	color:#e9ecef;
+}
+.fa-circle.active{
+	color:white;
+}
+.sidebarOption:hover{
+	background:#e9ecef;
+}
+.col-2,.col-3,.col-4,.col-8,.col-9,.col-12{
+	padding:0;
+}
+.row{
+	margin-left:0;
+	margin-right:0;
+}
+.dropdown-menu.show{
+	left:-50px;
+}
+.dropdown-toggle::after{
+	margin-top:10px;
+}
+</style>
+
+</head>
+<body>
+
+<nav class="d-flex w-100 py-1 px-0 mx-0 navbar navbar-expand navbar-light fixed-top">	
+	
+	<div class="d-inline-flex minw-150 infoText size-18">
+		<div class="flex-row w-100">	
+			<span id="sidebarCollapse" class="col-3 fa-stack align-middle ml-3 text-center pointer">
+			  <i id="sidebarCollapseCircle" class="fa fa-circle fa-stack-2x align-middle icon-background active"></i>
+			  <i class="fa fa-navicon fa-stack-1x align-middle size-20"></i>
+			</span>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 mb-1" href="index.html">Logo Name</a>
+		</div>
+	</div>
+	
+	<div class="pr-0 mx-0 searchWidth visible">
+		<div class="input-group">
+			<input type="text" class="form-control no-border" placeholder="Search for...">
+			<button class="deEmphasisSearchBtn input-group-addon">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</div><!-- /input-group -->
+	</div>
+		
+
+    <div class="d-flex ml-auto px-2">
+		
+		<button id="callSignIn" class="btn btn-outline-success btn-outline-success-blue ml-auto mr-md-2 mr-0" type="submit" 
+		onclick="document.getElementById('signInModal').style.display='block';">Sign In</button>
+
+		<button id="callSignUp" class="btn btn-outline-success btn-outline-success-blue mr-0" type="submit"
+		onclick="document.getElementById('signUpModal').style.display='block';">Sign Up</button>
+		
+		<div id="welcome" class="nav-item dropdown ml-auto hidden">
+			<a class="nav-link dropdown-toggle d-inline-flex my-auto welcomeLink" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Welcome
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			    <span class="dropdown-item pointer">Account</span>
+			    <div class="dropdown-divider"></div>
+			    <span class="dropdown-item pointer" onclick="signOut();">Sign Out</span>
+			</div>
+		</div>
+
+    </div>
+	
+</nav>
+
+<div id="sidebarOverlay" class=""></div>
+
+<div id="sidebar" class="text-wrap sidebar w-150">
+	<div class="d-inline-flex w-100 mt-3 infoText">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Filters</span>
+		</div>
+	</div>
+
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-calendar align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Dates</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-usd align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Price</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-map-marker align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Location</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText mt-3">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Catagories</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-tree align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Outdoors</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-gamepad align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Games</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-futbol-o align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Sports</span>
+		</div>
+	</div>
+	
+	<hr>
+	
+	<div id="account" class="d-inline-flex w-100 infoText sidebarOption pointer hidden">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-user align-middle pl-3 text-center size-20"></i>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 welcomeLink size-18" href="userPrivatePage.html">Account</a>
+		</div>
+	</div>	
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-file-text align-middle pl-3 text-center size-20"></i>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 welcomeLink size-18" href="addPage.html">Add Post</a>
+		</div>
+	</div>	
+	
+</div>
+		
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+		console.log("clicked");
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.pageWrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+		$('.searchResultsContainer').toggleClass('active');
+    });
+});
+
+$(document).ready(function () {
+    $('#sidebarOverlay').on('click', function () {
+	
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.pageWrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+		$('.searchResultsContainer').toggleClass('active');
+	
+    });
+});
+</script>
+
+<div class="row pageWrapper justify-content-center d-flex mt-4">
+
+	<div class="col-md-9 col-sm-10 col-12 pageContainer">
+		<div class="row">
+			
+			
+			<div class="col-12">
+				<div class="logo d-flex my-0">Learn how to Bake</div>
+				<hr>
+			</div>
+
+			
+			<!-- start of main column -->
+			<div class="col-8 pr-4">
+				
+				<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+					<div class="carousel-inner" role="listbox">
+						<div class="carousel-item active">
+							<img class="mainCarouselImg" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bakeCake1.2.jpg" alt="First slide">
+						</div>
+						<div class="carousel-item">
+							<img class="mainCarouselImg" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="Second slide">
+						</div>
+						<div class="carousel-item">
+							<img class="mainCarouselImg" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/concert1.2.jpg" alt="Third slide">
+						</div>
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+						<span class="fa fa-chevron-circle-left fa-2x" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+						<span class="fa fa-chevron-circle-right fa-2x" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+				
+				<hr>
+				
+				<div class="d-flex flex-row">
+					
+					
+					<div class="userLogo mr-2">
+						<img src="images/logo2.jpg">
+					</div>
+					
+					<div class="d-flex flex-column w-100">
+						<div class="d-flex flex-row">
+							<div class="userName">
+								<a href="#" class="textLink">SirBakesAlot</a>
+							</div>
+							<div class="d-flex ml-auto infoText">
+								<p class="mb-0">Trusted? <i class="fa fa-check" aria-hidden="true"></i></p>
+							</div>
+						</div>
+						<div class="d-flex flex-row infoText">
+							This is description of companny or individual
+						</div>
+					</div>
+
+				</div>	
+
+				<hr>
+				
+				<div class="furtherInfo">
+					<div class="sectionContainer">
+						<div class="d-flex flex-row sectionTitle">
+							<div class="title size-22" style="overflow:hidden;">Section Title</div>
+						</div>
+						<p class="infoText size-18" >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem</p>
+						<hr>
+					</div>
+					<div class="sectionContainer">
+						<div class="d-flex flex-row sectionTitle">
+							<div class="title size-22" style="overflow:hidden;">Section Title</div>
+						</div>
+						<p class="infoText size-18">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem</p>
+						<hr>
+					</div>
+					<div class="sectionContainer">
+						<div class="d-flex flex-row sectionTitle">
+							<div class="title size-22" style="overflow:hidden;">Section Title</div>
+						</div>
+						<p class="infoText size-18">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, doloremLorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, doloremLorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, doloremLorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem</p>
+						<hr>
+					</div>
+				</div>
+				
+				<div class="title size-22 d-flex mb-2">Similar Suggestions</div>
+				<!-- similar things -->
+				<div class="d-flex flex-row">
+				  
+					<div id="suggCarouselExampleControls" class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner" role="listbox">
+							<div class="carousel-item active">
+								<div class="d-flex flex-row">
+								
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+								
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>														
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>	
+									
+								</div>	
+							</div>
+							<div class="carousel-item">
+								<div class="d-flex flex-row">								
+									
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-4">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									
+								</div>	
+							</div>
+
+						</div>
+						<a class="carousel-control-prev suggCarouselControl nopointer" href="#suggCarouselExampleControls" role="button" data-slide="prev">
+							<span class="fa fa-chevron-circle-left fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next suggCarouselControl nopointer" href="#suggCarouselExampleControls" role="button" data-slide="next">
+							<span class="fa fa-chevron-circle-right fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+
+				</div>
+				
+
+<script>
+
+$(document).ready(function () {
+    $('.card-img-top').on('click', function () {
+
+		var pos = this.parentElement.children.length - 1;
+		var link = this.parentElement.children[pos];	
+		link.click();
+
+	});
+});
+
+$(document).ready(function () {
+    $('.card-body').on('click', function () {
+
+		var pos = this.parentElement.children.length - 1;
+		var link = this.parentElement.children[pos];	
+		link.click();
+
+	});
+});
+
+</script>
+				
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs d-flex mt-4" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active title unbold" data-toggle="tab" href="#reviews" role="tab">Reviews</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link title unbold" data-toggle="tab" href="#questions" role="tab">Questions</a>
+					</li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="reviews" role="tabpanel">
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is the actual review. I give sirbakesalot alot out of 5
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is the actual review. I give sirbakesalot alot out of 5
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is the actual review. I give sirbakesalot alot out of 5
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is the actual review. I give sirbakesalot alot out of 5
+								</div>
+							</div>
+						</div>
+						<hr>
+					</div>
+					<div class="tab-pane" id="questions" role="tabpanel">
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="userLogo mr-2">
+								<img src="images/logo1.jpg">
+							</div>
+							<div class="d-flex flex-column">
+								<div class="userName">
+									<a href="#" class="textLink">SirBakesAlot</a>
+								</div>
+								<div class="infoText">
+									This is a question for page creator to answer
+								</div>
+							</div>
+						</div>
+						<hr>
+					</div>
+				</div>
+				
+				
+			</div>
+			<!-- end of main column -->
+			
+			<!-- start of side column -->
+			<div class="col-4">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3298.3728514780682!2d-119.01097052638622!3d34.23902846428453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80e83679ab7dcc45%3A0xee668f490052f8c4!2s2075+Las+Estrellas+Ct%2C+Camarillo%2C+CA+93012!5e0!3m2!1sen!2sus!4v1513723152226" width="100%" height="270px" frameborder="0" style="border:0" allowfullscreen></iframe>
+				<hr>
+				<div class="notActiveInfo location">CA, Camarillo &#8729; 2075 Las Estrellas Ct</div>
+				<hr>
+				<div class="notActiveInfo date">Feb, 18 &#8729; 8:00-11:00 p.m.</div>
+				<hr>
+				<div class="rateit d-inline-flex my-auto" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" style="font-size:12px" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+				<span>&#8729; </span>
+				<a class="reviewNum" href="#reviews">116</a>
+				<hr>
+				<div class="row products">
+				
+					<div class="col-8 infoText my-2">product description</div>
+					<div class="col-4 my-2">
+						<button class="price btn btn-outline-success" type="submit">
+							$25
+						</button>
+					</div>
+					
+					<div class="col-8 infoText my-2">This is the product description</div>
+					<div class="col-4 my-2">
+						<button class="price btn btn-outline-success" type="submit">
+							$25
+						</button>
+					</div>
+					
+					<div class="col-8 infoText my-2">This is the product description</div>
+					<div class="col-4 my-2">
+						<button class="price btn btn-outline-success" type="submit">
+							$25
+						</button>
+					</div>
+					
+				</div>
+				<hr>
+				
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+
+<script>
+$('#carouselExampleControls').carousel({
+  interval: 6000
+})
+$('#suggCarouselExampleControls').carousel({
+  interval: false
+})
+</script>
+
+<!-- Sign In Modal -->
+<div id="signInModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signInModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign in with your username and password</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="textLink ml-2 text-left" type="submit"
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('forgotPasswordModal').style.display='block';">Forgot your password?</button>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" onclick="verifySignIn();">Sign In</button>
+		<div class="modal-text justify-content-center text-center">Need an account? <button class="textLink" 
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('signUpModal').style.display='block';">Sign Up</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signUpModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signUpModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign up with a new account</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Email</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('codeVerificationModal').style.display='block';">Sign Up</button>
+		<div class="modal-text justify-content-center text-center">Already have an account? <button class="textLink" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('signInModal').style.display='block';">Sign In</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Forgot password Modal -->
+<div id="forgotPasswordModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('forgotPasswordModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Forgot your password?</div>
+		<div class="modal-text my-2">Enter your username below and we will send a message to your email to reset your password</div>
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('forgotPasswordModal').style.display='none';document.getElementById('passwordResetModal').style.display='block';">Reset my password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- Password Reset Modal -->
+<div id="passwordResetModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('passwordResetModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a password reset code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">New Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('passwordResetModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Change password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- account verified Modal -->
+<div id="accountVerifiedModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('accountVerifiedModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text text-center">Your account has been verified</div>
+		<div class="title text-center my-2">Thank You</div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Code Verification Modal -->
+<div id="codeVerificationModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('codeVerificationModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('codeVerificationModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Confirm Account</button>
+		<div class="modal-text justify-content-center text-center">Didnt recieve a code? <button class="textLink">Resend It</button></div>
+	</div>
+  </div>
+
+</div>
+
+<script>
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == document.getElementById('signInModal')) {
+        document.getElementById('signInModal').style.display = "none";
+    }else if(event.target == document.getElementById('signUpModal')){
+		document.getElementById('signUpModal').style.display = "none";
+	}else if(event.target == document.getElementById('forgotPasswordModal')){
+		document.getElementById('forgotPasswordModal').style.display = "none";
+	}else if(event.target == document.getElementById('accountVerifiedModal')){
+		document.getElementById('accountVerifiedModal').style.display = "none";
+	}
+}
+
+//sign in verification script which changes buttons on success
+function verifySignIn(){
+	
+	//once integrate with aws this is where verification script would been
+	var signIn = true;
+	
+	//change usr displays
+	if(signIn){
+		document.getElementById('signInModal').style.display='none';
+		$('#callSignIn').toggleClass('hidden');
+		$('#callSignUp').toggleClass('hidden');
+		$('#welcome').toggleClass('hidden');
+		$('#account').toggleClass('hidden');
+	}
+	
+	
+}
+
+function signOut(){
+	$('#callSignIn').toggleClass('hidden');
+	$('#callSignUp').toggleClass('hidden');
+	$('#welcome').toggleClass('hidden');
+	$('#account').toggleClass('hidden');
+}
+
+
+//scripts called after all elements have loaded
+function getURLData(){
+	var url = (window.location.href).split("p=");
+	var data = url[1].replace("%20"," ");
+	return data;
+}
+
+AWS.config.update({
+  region:'us-west-1',
+  accessKeyId:'AKIAJZH5MFCWDXTY7HHA',
+  secretAccessKey:'c4MUjgaULELvQzIrCsd3tOy8I52aT/muB5mwdx0I'
+});
+
+var dynamodb = new AWS.DynamoDB();
+var docClient = new AWS.DynamoDB.DocumentClient();
+var dynamoDBPostTableName = 'ttdTest3';
+
+function readItem() {
+
+    var table = dynamoDBPostTableName;
+    var title = getURLData();
+
+    var params = {
+        TableName: table,
+        Key:{
+            "title": title
+        }
+    };
+    docClient.get(params, function(err, data) {
+        if (err) {
+            console.log("Unable to read item: " + "\n" + JSON.stringify(err, undefined, 2));
+        } else {
+            console.log("GetItem succeeded");
+			console.log(data.Item);
+        }
+    });
+}
+
+function fillPage(dataObj){
+	
+}
+
+
+readItem();
+
+</script>
+
+
+</body>
+</html>

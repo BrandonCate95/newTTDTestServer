@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+<!-- star rating scripts page:http://gjunge.github.io/rateit.js/examples/#ex_2d -->
+<script src="rateit.js-master/scripts/jquery.rateit.min.js"></script>
+<link rel="stylesheet" href="rateit.js-master/scripts/rateit.css">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- common style -->
+<style>
+/* utilities */
+.hidden{
+	display:none !important;
+}
+.visible{
+	display:auto !important;
+}
+.bold{
+	font-weight:bold;
+}
+.size-20{
+	font-size:20px !important;
+}
+.size-22{
+	font-size:22px !important;
+}
+.size-18{
+	font-size:18px !important;
+}
+.unbold{
+	font-weight:normal;
+}
+.nopointer{
+	cursor:auto;
+}
+.pointer{
+	cursor:pointer !important;
+}
+.no-border{
+	border:none;
+}
+/* end utilities */
+
+/* button */
+button{
+	cursor:pointer;
+}
+button:focus{
+	outline:none;
+}
+.btn:focus{
+	box-shadow:none;
+}
+.btn-outline-success-blue{
+	color:#439cdb;
+	border-color:#439cdb;
+}
+.btn-outline-success-blue:hover{
+	background:#439cdb;
+}
+.closeBtn{
+	color:red;
+	position:absolute;
+	top:0;
+	right:3px;
+}
+.deEmphasisSearchBtn{
+	background:white;
+	border:none;
+}
+.deEmphasisNaviconBtn{
+	background:none;
+	border:none;
+}
+/* end button */
+
+/* card */
+.card{
+	padding:0;
+	border:none;
+	margin:0;
+	background:#fafafa;
+	height:auto;
+	font-family:Helvetica;
+}
+.card-body{
+	padding:0;
+}
+.card-img-top,.card-body{
+	cursor:pointer;
+	width:100%;
+	height:auto;
+}
+.card-info{
+	margin:0;
+}
+.card:nth-of-type(3n+3){
+	padding:0;
+	padding-left:15px;
+}
+.card:nth-of-type(3n+2){
+	padding:0;
+	padding-right:7.5px;
+	padding-left:7.5px;
+}
+.card:nth-of-type(3n+1){
+	padding:0;
+	padding-right:15px;
+}
+@media (max-width:768px){
+	.card:nth-of-type(2n+1){
+		padding:0;
+		padding-right:15px;
+	}
+	.card:nth-of-type(2n){
+		padding:0;
+		padding-left:15px;
+	}
+}
+.rating{
+	font-size:13px;
+	color:#439cdb;
+}
+.unchecked {
+    color: white;
+	text-shadow: -1px 0 #6db3ff, 0 1px #6db3ff, 1px 0 #6db3ff, 0 -1px #6db3ff;
+}
+.fa-check{
+	color:#34a65e;
+}
+/* end card */
+
+/* images */
+img,iframe{
+	border-radius:5px;
+}
+.userLogo img{
+	width:50px;
+	height:50px;
+}
+/* end images */
+
+
+/* text */
+.logo{
+	font-size:30px;
+	font-weight:bold;
+}
+.miscInfoText{
+	font-size:14px;
+	color:#999999;
+}
+.notActiveInfo{
+	font-weight:bold;
+	font-size:13px;
+	color:#7397d1;
+}
+.title{
+	font-weight:bold;
+	font-size:17px;
+	color:#555555;
+}
+.textLink{
+	color:#439cdb;
+	border:none;
+	background:none;
+	padding:0;
+	margin:0;
+	display:inline-block;
+}
+.textLink:hover{
+	color:#3e64a3;
+}
+.welcomeLink{
+	color:#555555 !important;
+	font-size:17px;
+}
+.welcomeLink:hover{
+	color:#555555 !important;
+	text-decoration:none;
+}
+.userName{
+	font-family:Helvetica;
+	font-weight:bold;
+	font-size:17px;
+}
+.infoText{
+	font-size:15px;
+	color:#676767;
+}
+/* end text */
+
+/* other */
+i{
+	color:#439cdb;
+}
+.filter{
+	width:auto !important;
+}
+.filter-addon{
+	font-size:14px;
+	cursor:pointer;
+}
+.filter .input-group-addon{
+	padding:5px 7px;
+}
+@media (max-width: 670px) {
+	.filter-addon {
+		font-size:12px;
+	}
+}
+.rateit .rateit-preset{
+	color:#439cdb;
+}
+.rateit-font{
+	font-size:17px;
+}
+.rateit-font .rateit-range > div{
+	cursor:pointer !important;
+}
+.container{
+	padding:0;
+}
+/* end other */
+
+</style>
+
+<!-- NavBar Style -->
+<style>
+.minw-150{
+	min-width:200px;
+}
+.w-150{
+	width:200px;
+}
+#callSignUp{
+	display:auto;
+}
+@media (max-width:768px){
+	#callSignUp{
+		display:none;
+	}
+}
+.navbar{
+	z-index:5;
+	background:white !important;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<!-- search results style -->
+<style>
+.searchResultsContainer{
+	margin-left:200px;
+	transition: all 0.2s;
+}
+.searchResultsContainer.active{
+	margin-left:30px;
+}
+
+/* search bar */
+.searchWidth {
+    width: 100%;
+}
+@media (max-width: 992px){
+	.searchWidth{
+		padding:0 30px;
+	}
+	.searchResultsContainer,.searchResultsContainer.active{
+		margin-left:0px;
+	}
+}
+@media (min-width: 992px){
+	.searchWidth {
+		width: 800px;
+	}
+}
+/* end search bar */
+
+</style>
+
+<!-- modal style -->
+<style>
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 7; 
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    margin: auto;
+    padding: 5px;
+    border: 1px solid #888;
+    width: 350px;
+}
+.modal-text{
+	font-size:16px;
+	color:#555555;
+}
+</style>
+
+<!-- sidebar style -->
+<style>
+html,body{
+	height:100%;
+}
+.sidebar{
+	position:fixed;
+	top:44px;
+	height:100%;
+	background:white;
+	word-wrap:break-word;
+	overflow-y:auto;
+	transition: all 0.2s;
+	margin-left:-200px;
+	z-index:5;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.wrapper,.pageWrapper,.userpageWrapper{
+	min-height:100%;
+	padding-top:46px;
+	z-index:1;
+	background:#fafafa;
+	transition: all 0.2s;
+}
+.sidebar.active{
+	margin-left:0px;
+}
+.wrapper.active,.userpageWrapper.active{
+	margin-left:200px;
+}
+.pageWrapper.active{
+	margin-left:40px;
+}
+@media (min-width:992px) and (max-width:1150px){
+	.pageWrapper.active{
+		margin-left:10%;
+	}
+}
+@media (min-width:1150px) and (max-width:1300px){
+	.pageWrapper.active{
+		margin-left:5%;
+	}
+}
+#sidebarOverlay{
+	position:fixed;
+	display:none;
+	width:100%;
+	height:100%;
+}
+@media (max-width:992px){
+	.wrapper.active,.pageWrapper.active,.userpageWrapper.active{
+		margin-left:0px;
+	}
+	#sidebarOverlay.active{
+		display:inline;
+		z-index:2;
+		background-color: rgb(0,0,0);
+		background: rgba(0, 0, 0, 0.7);
+	}
+}
+.fa-circle{
+	color:#e9ecef;
+}
+.fa-circle.active{
+	color:white;
+}
+.sidebarOption:hover{
+	background:#e9ecef;
+}
+.col-2,.col-3,.col-4,.col-8,.col-9,.col-12{
+	padding:0;
+}
+.row{
+	margin-left:0;
+	margin-right:0;
+}
+.dropdown-menu.show{
+	left:-50px;
+}
+.dropdown-toggle::after{
+	margin-top:10px;
+}
+
+.imgContainer{
+	width:267px;
+	height:150px
+}
+
+.searchResultImg{
+	width:100%;
+	height:100%;
+}
+
+.titleContainer:hover{
+	text-decoration: underline;
+}
+</style>
+
+</head>
+<body>
+
+<nav class="d-flex w-100 py-1 px-0 mx-0 navbar navbar-expand navbar-light fixed-top">	
+	
+	<div class="d-inline-flex minw-150 infoText size-18">
+		<div class="flex-row w-100">	
+			<span id="sidebarCollapse" class="col-3 fa-stack align-middle ml-3 text-center pointer">
+			  <i id="sidebarCollapseCircle" class="fa fa-circle fa-stack-2x align-middle icon-background active"></i>
+			  <i class="fa fa-navicon fa-stack-1x align-middle size-20"></i>
+			</span>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 mb-1" href="index.html">Logo Name</a>
+		</div>
+	</div>
+	
+	<div class="pr-0 mx-0 searchWidth visible">
+		<div class="input-group">
+			<input id="searchInput" type="text" class="form-control" placeholder="Search for...">
+			<button id="searchBtn" class="input-group-addon">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</div><!-- /input-group -->
+	</div>
+
+<script>
+var userSearchDomain = 'search-dynamic-field-test1-2s4mxhaeyhjeuqw6uvd2yqqofm.us-west-1.cloudsearch.amazonaws.com' + '/2013-01-01/';
+
+//This sends url request data to php script which sends curl request to AWS cloudsearch and retrieves JSON data
+function searchReq(query){
+		
+		var http = new XMLHttpRequest();
+			
+		var formData = new FormData();
+		formData.append("URL", userSearchDomain + "search?q=" + query + "&return=id,tags_s,search_img_s,section_content_striped_s");
+			
+		http.open("POST", "/ttdTestServer/info.php", true);
+		http.send(formData);
+	
+		http.onreadystatechange = function() {//Call a function when the state changes.
+			if(http.readyState == 4 && http.status == 200) {
+				var JSONString = http.responseText;
+				//console.log(JSONString);
+				var JSONObject = JSON.parse(JSON.parse(JSONString)); //There are two parses here as the first strips outer quotes and forward slashes while the second converts now readable JSON string into JSON object
+				
+				if(document.getElementById("textarea")){ //added for debugging purposes on addItem page
+					document.getElementById("textarea").innerHTML = JSON.stringify(JSONObject["hits"]["hit"]);
+				}
+				console.log(JSONObject["hits"]);
+				formatRes(JSONObject["hits"]["hit"])				
+				
+			}
+		}
+	}
+
+
+$(function() {
+	$(document).on("click", "#searchBtn", function(){
+		//eventually will change this to an async update
+		var query = document.getElementById("searchInput").value;
+		query = query.replaceAll(" ","%20")
+		window.location.href = "search.html?q=" + query;
+	});
+});
+
+$("#searchInput").keyup(function(event) {
+	if (event.keyCode === 13) {
+		document.getElementById("searchBtn").click();
+	}
+});
+
+function searchReq(query){
+		
+	var http = new XMLHttpRequest();
+		
+	var formData = new FormData();
+	formData.append("URL", userSearchDomain + "search?q=" + query + "&return=id,tags_s,search_img_s,section_content_striped_s");
+		
+	http.open("POST", "/ttdTestServer/info.php", true);
+	http.send(formData);
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+		if(http.readyState == 4 && http.status == 200) {
+			var JSONString = http.responseText;
+			//console.log(JSONString);
+			var JSONObject = JSON.parse(JSON.parse(JSONString)); //There are two parses here as the first strips outer quotes and forward slashes while the second converts now readable JSON string into JSON object
+			
+			if(document.getElementById("textarea")){ //added for debugging purposes on addItem page
+				document.getElementById("textarea").innerHTML = JSON.stringify(JSONObject["hits"]["hit"]);
+			}
+			console.log(JSONObject);
+			formatRes(JSONObject["hits"]["hit"])				
+			
+		}
+	}
+}
+
+function onLoadSearch(){
+	var query = getURLData();
+	searchReq(query);
+}
+
+//scripts called after all elements have loaded
+function getURLData(){
+	var url = (window.location.href).split("q=");
+	var query = url[1];
+	localStorage.setItem("query",query);
+	return query;
+}
+
+function formatRes(data){
+
+	//initialize container
+	document.getElementById("searchContainer").innerHTML = "";
+
+	for(var k = 0; k < data.length; k++){
+		console.log(data[k].fields);
+		createResult(data[k].fields);
+	}
+
+}
+
+function createResult(dataObj){
+	var tmpSearchResult = fSearchResult.cloneNode(true);
+	var img = $(tmpSearchResult).children(".imgContainer").children(".searchResultImg")[0];
+	var title = $(tmpSearchResult).children(".searchResultBody").children(".searchResultTitle").children(".titleContainer")[0];
+	var desc = $(tmpSearchResult).children(".searchResultBody").children(".searchResultDescription")[0];
+	var link = $(tmpSearchResult).children("a")[0];
+	
+	img.src = dataObj.search_img_s || dataObj.search_img;	
+	title.innerHTML = dataObj.id;
+	link.href = "page.html?p=" + dataObj.id;
+	
+	desc.innerHTML = dataObj.section_content_striped_s;
+	
+	$("#searchContainer").append(tmpSearchResult);
+	
+	//I truly have no clue why this is needed, but it is... and only solution I found so far
+	img.style.width = "267px";
+	img.style.height = "150px";
+
+	$clamp(desc, {clamp: 3});
+}
+
+//<div class="searchResult d-flex flex-row my-2">
+//	<img class="searchResultImg" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/ttd/default4.png">
+//	<div class="searchResultBody d=flex flex-column pl-3 py-4">
+//		<h4 class="searchResultTitle title size-22">Placeholder Title</h4>
+//		<div class="searchResultDescription infoText size-18">Lorem ipsum dolor sit amet</div>
+//	</div>
+//	<a href="page.html" class="hidden"></a>
+//</div>
+
+String.prototype.replaceAll = function(str1, str2, ignore) //third argument makes it case insensitive if true and case sensitive if false
+{
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+} 
+
+</script>		
+	
+</nav>
+
+<div id="sidebarOverlay" class="active"></div>
+
+<div id="sidebar" class="text-wrap sidebar w-150 active">
+	
+	<div class="d-inline-flex w-100 infoText mt-3">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Catagories</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption catagory pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-tree align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Outdoors</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption catagory pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-gamepad align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Games</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption catagory pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-futbol-o align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Sports</span>
+		</div>
+	</div>
+	
+	<hr>
+	
+	<script>
+		
+		$(function() {
+			$(document).on("click", ".catagory", function(){
+				var ch = $(this).children().children(".navbar-brand")[0];
+				
+				var parse = ch.innerHTML.split('<');
+				
+				var catagory = parse[0];
+				
+				window.location.href = "search.html?q=" + catagory;
+			});
+		});
+		
+	</script>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-file-text align-middle pl-3 text-center size-20"></i>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 welcomeLink size-18" href="addPage.html">Add Post</a>
+		</div>
+	</div>	
+	
+</div>
+		
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+		console.log("clicked");
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.wrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+		$('.searchResultsContainer').toggleClass('active');
+    });
+});
+
+$(document).ready(function () {
+    $('#sidebarOverlay').on('click', function () {
+	
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.wrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+		$('.searchResultsContainer').toggleClass('active');
+	
+    });
+});
+</script>
+
+<div class="wrapper active">
+	<div id="searchContainer" class="container align-content-start flex-wrap searchResultsContainer searchWidth active my-2">
+
+<!-- example card -->
+<div class="searchResult d-flex flex-row my-4 pointer">
+	<div class="imgContainer">
+		<img class="searchResultImg" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/ttd/default4.png">
+	</div>
+	<div class="searchResultBody pl-3 pt-3">
+		<h4 class="searchResultTitle title size-22 w-100"><span class="titleContainer">Placeholder Title</span></h4>
+		<div class="searchResultDescription infoText size-18 w-100">Lorem ipsum dolor sit amet</div>
+	</div>
+	<a href="page.html" class="hidden"></a>
+</div>
+
+	</div>
+</div>
+
+<script src="Clamp.min.js"></script>
+
+<script>
+
+var fSearchResult = document.getElementsByClassName("searchResult")[0];
+
+$(document).on('click','.searchResult', function () {
+
+	var link = $(this).children("a")[0];	
+	link.click();
+
+});
+
+//if search coming from off page with a query, search it
+onLoadSearch();
+</script>
+
+</body>
+</html>

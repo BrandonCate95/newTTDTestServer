@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- star rating scripts page:http://gjunge.github.io/rateit.js/examples/#ex_2d -->
+<script src="rateit.js-master/scripts/jquery.rateit.min.js"></script>
+<link rel="stylesheet" href="rateit.js-master/scripts/rateit.css">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+
+<!-- common style -->
+<style>
+/* utilities */
+.hidden{
+	display:none !important;
+}
+.visible{
+	display:auto !important;
+}
+.bold{
+	font-weight:bold;
+}
+.size-20{
+	font-size:20px !important;
+}
+.size-22{
+	font-size:22px !important;
+}
+.size-18{
+	font-size:18px !important;
+}
+.unbold{
+	font-weight:normal;
+}
+.nopointer{
+	cursor:auto;
+}
+.pointer{
+	cursor:pointer;
+}
+.no-border{
+	border:none;
+}
+.no-padding{
+	padding:0;
+}
+.no-margin{
+	margin:0;
+}
+.no-radius{
+	border-radius:0;
+}
+/* end utilities */
+
+/* button */
+button{
+	cursor:pointer;
+}
+button:focus{
+	outline:none;
+}
+.btn:focus{
+	box-shadow:none;
+}
+.btn-outline-success-blue{
+	color:#439cdb;
+	border-color:#439cdb;
+}
+.btn-outline-success-blue:hover{
+	background:#439cdb;
+}
+.closeBtn{
+	color:red;
+	position:absolute;
+	top:0;
+	right:3px;
+}
+.deEmphasisSearchBtn{
+	background:white;
+	border:none;
+}
+.deEmphasisNaviconBtn{
+	background:none;
+	border:none;
+}
+/* end button */
+
+/* card */
+.card{
+	padding:0;
+	border:none;
+	margin:0;
+	background:#fafafa;
+	height;auto;
+	font-family:Helvetica;
+}
+.card-body{
+	padding:0;
+}
+.card-img-top,.card-body{
+	cursor:pointer;
+}
+.card-info{
+	margin:0;
+}
+.card:nth-of-type(4n+4){
+	padding:0;
+	padding-left:15px;
+}
+.card:nth-of-type(4n+3){
+	padding:0;
+	padding-right:5px;
+	padding-left:10px;
+}
+.card:nth-of-type(4n+2){
+	padding:0;
+	padding-right:10px;
+	padding-left:5px;
+}
+.card:nth-of-type(4n+1){
+	padding:0;
+	padding-right:15px;
+}
+/* end card */
+
+/* images */
+img,iframe{
+	border-radius:5px;
+}
+.userLogo img{
+	width:50px;
+	height:50px;
+}
+.userPageLogo img{
+	width:75px;
+	height:75px;
+}
+/* end images */
+
+
+/* text */
+.logo{
+	font-size:30px;
+	font-weight:bold;
+}
+.miscInfoText{
+	font-size:14px;
+	color:#999999;
+}
+.notActiveInfo{
+	font-weight:bold;
+	font-size:13px;
+	color:#7397d1;
+}
+.title{
+	font-weight:bold;
+	font-size:17px;
+	color:#555555;
+}
+.textLink{
+	color:#439cdb;
+	border:none;
+	background:none;
+	padding:0;
+	margin:0;
+	display:inline-block;
+}
+.textLink:hover{
+	color:#3e64a3;
+}
+.welcomeLink{
+	color:#555555 !important;
+	font-size:17px;
+}
+.welcomeLink:hover{
+	color:#555555 !important;
+	text-decoration:none;
+}
+.userName{
+	font-family:Helvetica;
+	font-weight:bold;
+	font-size:17px;
+}
+.infoText{
+	font-size:15px;
+	color:#676767;
+}
+/* end text */
+
+/* other */
+i{
+	color:#439cdb;
+}
+.filter{
+	width:auto !important;
+}
+.filter-addon{
+	font-size:14px;
+	cursor:pointer;
+}
+.filter .input-group-addon{
+	padding:5px 7px;
+}
+@media (max-width: 670px) {
+	.filter-addon {
+		font-size:12px;
+	}
+}
+.fa-check{
+	color:#34a65e;
+}
+.nav-link.active{
+	background-color:#fafafa !important;
+}
+.carousel-control-prev,.carousel-control-prev:focus, .carousel-control-next,.carousel-control-next:focus {
+	opacity:.8;
+    width: 4%;
+}
+.rateit .rateit-preset{
+	color:#439cdb;
+}
+.rateit-font{
+	font-size:17px;
+}
+.rateit-font .rateit-range > div{
+	cursor:pointer !important;
+}
+.container{
+	padding:0;
+}
+/* end other */
+
+</style>
+
+<!-- NavBar Style -->
+<style>
+.minw-150{
+	min-width:200px;
+}
+.w-150{
+	width:200px;
+}
+#callSignUp{
+	display:auto;
+}
+@media (max-width:768px){
+	#callSignUp{
+		display:none;
+	}
+}
+.navbar{
+	z-index:5;
+	background:white !important;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<!-- modal style -->
+<style>
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 7; 
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    margin: auto;
+    padding: 5px;
+    border: 1px solid #888;
+    width: 350px;
+}
+.modal-text{
+	font-size:16px;
+	color:#555555;
+}
+</style>
+
+<!-- sidebar style -->
+<style>
+.sidebar{
+	position:fixed;
+	top:46px;
+	height:100%;
+	background:white;
+	word-wrap:break-word;
+	overflow-y:auto;
+	transition: all 0.2s;
+	margin-left:-200px;
+	z-index:5;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.wrapper,.pageWrapper,.userpageWrapper{
+	padding-top:46px;
+	z-index:1;
+	background:#fafafa;
+	transition: all 0.2s;
+}
+.sidebar.active{
+	margin-left:0px;
+}
+.wrapper.active,.userpageWrapper.active{
+	margin-left:200px;
+}
+.pageWrapper.active{
+	margin-left:40px;
+}
+@media (min-width:992px) and (max-width:1150px){
+	.pageWrapper.active{
+		margin-left:10%;
+	}
+}
+@media (min-width:1150px) and (max-width:1300px){
+	.pageWrapper.active{
+		margin-left:5%;
+	}
+}
+#sidebarOverlay{
+	position:fixed;
+	display:none;
+	width:100%;
+	height:100%;
+}
+@media (max-width:992px){
+	.wrapper.active,.pageWrapper.active,.userpageWrapper.active{
+		margin-left:0px;
+	}
+	#sidebarOverlay.active{
+		display:inline;
+		z-index:2;
+		background-color: rgb(0,0,0);
+		background: rgba(0, 0, 0, 0.7);
+	}
+}
+.fa-circle{
+	color:#e9ecef;
+}
+.fa-circle.active{
+	color:white;
+}
+.sidebarOption:hover{
+	background:#e9ecef;
+}
+.col-2,.col-3,.col-4,.col-8,.col-9,.col-12{
+	padding:0;
+}
+.row{
+	margin-left:0;
+	margin-right:0;
+}
+.dropdown-menu.show{
+	left:-50px;
+}
+.dropdown-toggle::after{
+	margin-top:10px;
+}
+</style>
+
+<!-- search results style -->
+<style>
+.searchResultsContainer{
+	margin-left:200px;
+	transition: all 0.2s;
+}
+.searchResultsContainer.active{
+	margin-left:30px;
+}
+
+/* search bar */
+.searchWidth {
+    width: 100%;
+}
+@media (max-width: 992px){
+	.searchWidth{
+		padding:0 30px;
+	}
+	.searchResultsContainer,.searchResultsContainer.active{
+		margin-left:0px;
+	}
+}
+@media (min-width: 992px){
+	.searchWidth {
+		width: 800px;
+	}
+}
+/* end search bar */
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="d-flex w-100 py-1 px-0 mx-0 navbar navbar-expand navbar-light fixed-top">	
+	
+	<div class="d-inline-flex minw-150 infoText size-18">
+		<div class="flex-row w-100">	
+			<span id="sidebarCollapse" class="col-3 fa-stack align-middle ml-3 text-center pointer">
+			  <i id="sidebarCollapseCircle" class="fa fa-circle fa-stack-2x align-middle icon-background active"></i>
+			  <i class="fa fa-navicon fa-stack-1x align-middle size-20"></i>
+			</span>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 mb-1" href="index.html">Logo Name</a>
+		</div>
+	</div>
+	
+	<div class="pr-0 mx-0 searchWidth visible">
+		<div class="input-group">
+			<input type="text" class="form-control no-border" placeholder="Search for...">
+			<button class="deEmphasisSearchBtn input-group-addon">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</div><!-- /input-group -->
+	</div>
+		
+
+    <div class="d-flex ml-auto px-2">
+		
+		<button id="callSignIn" class="btn btn-outline-success btn-outline-success-blue ml-auto mr-md-2 mr-0" type="submit" 
+		onclick="document.getElementById('signInModal').style.display='block';">Sign In</button>
+
+		<button id="callSignUp" class="btn btn-outline-success btn-outline-success-blue mr-0" type="submit"
+		onclick="document.getElementById('signUpModal').style.display='block';">Sign Up</button>
+		
+		<div id="welcome" class="nav-item dropdown ml-auto hidden">
+			<a class="nav-link dropdown-toggle d-inline-flex my-auto welcomeLink" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Welcome
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			    <span class="dropdown-item pointer">Account</span>
+			    <div class="dropdown-divider"></div>
+			    <span class="dropdown-item pointer" onclick="signOut();">Sign Out</span>
+			</div>
+		</div>
+
+    </div>
+	
+</nav>
+
+<div id="sidebarOverlay" class="active"></div>
+
+<div id="sidebar" class="text-wrap sidebar w-150 active">
+	<div class="d-inline-flex w-100 mt-3 infoText">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Filters</span>
+		</div>
+	</div>
+
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-calendar align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Dates</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-usd align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Price</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-map-marker align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Location</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText mt-3">
+		<div class="flex-row w-100">	
+			<span class="align-middle pl-3 text-center size-20">Catagories</span>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-tree align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Outdoors</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-gamepad align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Games</span>
+		</div>
+	</div>
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-futbol-o align-middle pl-3 text-center size-20"></i>
+			<span class="col-8 navbar-brand mx-0 align-middle pl-2 size-18">Sports</span>
+		</div>
+	</div>
+	
+	<hr>
+	
+	<div id="account" class="d-inline-flex w-100 infoText sidebarOption pointer hidden">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-user align-middle pl-3 text-center size-20"></i>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 welcomeLink size-18" href="userPrivatePage.html">Account</a>
+		</div>
+	</div>
+	
+	<div class="d-inline-flex w-100 infoText sidebarOption pointer">
+		<div class="flex-row w-100">	
+			<i class="col-3 fa fa-file-text align-middle pl-3 text-center size-20"></i>
+			<a class="col-8 navbar-brand mx-0 align-middle pl-2 welcomeLink size-18" href="addPage.html">Add Post</a>
+		</div>
+	</div>	
+	
+</div>
+		
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+		console.log("clicked");
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.userpageWrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+		$('.searchResultsContainer').toggleClass('active');
+    });
+});
+
+$(document).ready(function () {
+    $('#sidebarOverlay').on('click', function () {
+	
+        $('#sidebar').toggleClass('active');
+		$('#sidebarCollapseCircle').toggleClass('active');
+		$('.userpageWrapper').toggleClass('active');
+		$('#sidebarOverlay').toggleClass('active');
+		$('.searchResultsContainer').toggleClass('active');
+	
+    });
+});
+</script>
+
+<div class="d-flex row justify-content-center no-margin userpageWrapper active">
+
+	<div class="col-12">
+		
+		<img class="no-radius" width="100%" height="200px" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bakeCake1.2.jpg" alt="">	
+		
+	</div>
+	
+	<div class="col-10 d-flex flex-row justify-content-center my-3 no-padding px-1">
+								
+		<div class="userPageLogo mr-3">
+			<img src="images/logo2.jpg">
+		</div>
+					
+		<div class="d-flex flex-column w-100">
+			<div class="d-flex flex-row">
+				<div class="userName size-20">
+					<a href="#" class="textLink">SirBakesAlot</a>
+				</div>
+				<div class="d-flex ml-auto infoText">
+					<p class="mb-0">Trusted? <i class="fa fa-check" aria-hidden="true"></i></p>
+				</div>
+			</div>
+			<div class="d-flex flex-row infoText">
+				This is description of companny or individual
+			</div>
+		</div>
+
+	</div>
+	
+	<div class="d-flex flex-row w-100 no-padding mb-4">
+		
+		<div class="col-1" style="border-bottom:1px solid #ddd;"></div>
+	
+		<!-- Nav tabs -->
+		<ul class="col-10 nav nav-tabs mt-2 no-padding no-margin" role="tablist">
+			<li class="nav-item">
+				<a id="hometab" class="nav-link active title unbold" data-toggle="tab" href="#home" role="tab">Home</a>
+			</li>
+			<li class="nav-item">
+				<a id="poststab" class="nav-link title unbold" data-toggle="tab" href="#posts" role="tab">Posts</a>
+			</li>
+		</ul>
+		
+		<script>
+
+		<!-- tabs were messing up on placing of active state so thats why this is here -->
+		$(document).ready(function () {
+			$('#hometab').on('click', function () {
+			
+				console.log("clicked");
+				if(!$(this).hasClass('active')){
+					$('#home').toggleClass('active');
+					$('#posts').toggleClass('active');
+				}
+
+			
+			});
+		});
+		</script>
+		
+		<div class="col-1" style="border-bottom:1px solid #ddd;"></div>
+		
+	</div>
+	
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div class="tab-pane w-100 active" id="home" role="tabpanel">
+		
+		
+			<div class="col-10 mx-auto title size-22 mt-4 mb-2 no-padding">
+				Popular
+			</div>
+		
+		
+			<div class="col-10 mx-auto mb-4 no-padding">								
+								
+					<div id="userpageCarouselControls1" class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner" role="listbox">
+							<div class="carousel-item active">
+								<div class="d-flex flex-row">
+								
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="5" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									
+								</div>	
+							</div>
+							<div class="carousel-item">
+								<div class="d-flex flex-row">
+								
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									
+								</div>	
+							</div>
+
+						</div>
+						<a class="carousel-control-prev suggCarouselControl nopointer" href="#userpageCarouselControls1" role="button" data-slide="prev">
+							<span class="fa fa-chevron-circle-left fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next suggCarouselControl nopointer" href="#userpageCarouselControls1" role="button" data-slide="next">
+							<span class="fa fa-chevron-circle-right fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+				
+			</div>
+			
+			<div class="col-10 mx-auto title size-22 mt-4 mb-2 no-padding">
+				Type of Posts 1
+			</div>
+		
+		
+			<div class="col-10 mx-auto mb-4 no-padding">								
+								
+					<div id="userpageCarouselControls2" class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner" role="listbox">
+							<div class="carousel-item active">
+								<div class="d-flex flex-row">
+								
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									
+								</div>	
+							</div>
+							<div class="carousel-item">
+								<div class="d-flex flex-row">
+								
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									
+								</div>	
+							</div>
+
+						</div>
+						<a class="carousel-control-prev suggCarouselControl nopointer" href="#userpageCarouselControls2" role="button" data-slide="prev">
+							<span class="fa fa-chevron-circle-left fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next suggCarouselControl nopointer" href="#userpageCarouselControls2" role="button" data-slide="next">
+							<span class="fa fa-chevron-circle-right fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+				
+			</div>
+			
+			
+			<div class="col-10 mx-auto title size-22 mt-4 mb-2 no-padding">
+				Type of Posts 2
+			</div>
+		
+		
+			<div class="col-10 mx-auto mb-4 no-padding">								
+								
+					<div id="userpageCarouselControls3" class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner" role="listbox">
+							<div class="carousel-item active">
+								<div class="d-flex flex-row">
+								
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									
+								</div>	
+							</div>
+							<div class="carousel-item">
+								<div class="d-flex flex-row">
+								
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									<div class="card col-3">
+										<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+										<div class="card-body">
+											<span class="card-location notActiveInfo">CA, Camarillo</span>
+											<span class="card-divider notActiveInfo">&#8729;</span>
+											<span class="card-date notActiveInfo">Feb, 18</span>
+											<h4 class="card-info card-title title">Bake with a professional chef</h4>
+											<div class="card-info card-price miscInfoText">$30 per person</div>
+											<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+										</div>
+										<a href="page.html" class="hidden"></a>
+									</div>
+									
+								</div>	
+							</div>
+
+						</div>
+						<a class="carousel-control-prev suggCarouselContro3 nopointer" href="#userpageCarouselControls3" role="button" data-slide="prev">
+							<span class="fa fa-chevron-circle-left fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next suggCarouselContro3 nopointer" href="#userpageCarouselControls3" role="button" data-slide="next">
+							<span class="fa fa-chevron-circle-right fa-2x d-flex pointer" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+				
+			</div>			
+			
+		</div>
+		<!-- end of home tab content -->
+		
+		<div class="tab-pane w-100" id="posts" role="tabpanel1">
+			<div class="container col-10 d-flex flex-row mx-auto align-content-start flex-wrap no-padding">		
+		
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div id="myrate" class="rateit" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.8" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>	
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>				
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>	
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>	
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="3.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>
+				<div class="card my-4 col-3">
+					<img class="card-img-top" width="100%" height="auto" src="https://s3-us-west-1.amazonaws.com/ttd-service-image-storage/test/bowling1.2.jpg" alt="">
+					<div class="card-body">
+						<span class="card-location notActiveInfo">CA, Camarillo</span>
+						<span class="card-divider notActiveInfo">&#8729;</span>
+						<span class="card-date notActiveInfo">Feb, 18</span>
+						<h4 class="card-info card-title title">Bake with a professional chef</h4>
+						<div class="card-info card-price miscInfoText">$30 per person</div>
+						<div class="rateit pointer" style="word-wrap:normal;" data-rateit-icon="&#9733;" data-rateit-mode="font" data-rateit-value="1.4" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					</div>
+					<a href="page.html" class="hidden"></a>
+				</div>
+				
+			</div>
+			
+		</div>
+
+	</div>
+	
+<script>
+
+<!-- function required as all but first tab star width is set to 0 for some reason -->
+$(document).ready(function () {
+    $('#poststab').on('click', function () {
+	
+		var rateList = document.getElementsByClassName('rateit');
+		
+		for(var k = 0; k < rateList.length; k++){
+			<!-- width is 14.1625px per star -->
+			var width = (14.1625) * rateList[k].getAttribute('data-rateit-value');
+			
+			var par = rateList[k].children;
+			var chld = par[1].children[1];
+			
+			chld.style.width = width + "px";
+			
+		}
+	
+    });
+});
+
+$(window).scroll(function() {
+    if($('#posts').hasClass('active') && $(window).scrollTop() >= $(document).height() - $(window).height() - 20) {
+	
+		var contain = document.getElementsByClassName('container')[0];
+	
+		var topcard = document.getElementsByClassName('card')[0];
+		
+		var appcard = topcard.cloneNode(true);
+			
+		contain.appendChild(appcard);
+		   
+    }
+});	
+</script>	
+
+<script>
+$('#userpageCarouselControls1').carousel({
+  interval: false
+})
+$('#userpageCarouselControls2').carousel({
+  interval: false
+})
+$('#userpageCarouselControls3').carousel({
+  interval: false
+})
+</script>
+
+<script>
+
+$(document).ready(function () {
+    $('.card-img-top').on('click', function () {
+
+		var pos = this.parentElement.children.length - 1;
+		var link = this.parentElement.children[pos];	
+		link.click();
+
+	});
+});
+
+$(document).ready(function () {
+    $('.card-body').on('click', function () {
+
+		var pos = this.parentElement.children.length - 1;
+		var link = this.parentElement.children[pos];	
+		link.click();
+
+	});
+});
+
+</script>
+
+<!-- Sign In Modal -->
+<div id="signInModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signInModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign in with your username and password</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="textLink ml-2 text-left" type="submit"
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('forgotPasswordModal').style.display='block';">Forgot your password?</button>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" onclick="verifySignIn();">Sign In</button>
+		<div class="modal-text justify-content-center text-center">Need an account? <button class="textLink" 
+		onclick="document.getElementById('signInModal').style.display='none';document.getElementById('signUpModal').style.display='block';">Sign Up</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signUpModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('signUpModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Sign up with a new account</div>	
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Email</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('codeVerificationModal').style.display='block';">Sign Up</button>
+		<div class="modal-text justify-content-center text-center">Already have an account? <button class="textLink" 
+		onclick="document.getElementById('signUpModal').style.display='none';document.getElementById('signInModal').style.display='block';">Sign In</button></div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Forgot password Modal -->
+<div id="forgotPasswordModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('forgotPasswordModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="title">Forgot your password?</div>
+		<div class="modal-text my-2">Enter your username below and we will send a message to your email to reset your password</div>
+		<div class="modal-text">Username</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('forgotPasswordModal').style.display='none';document.getElementById('passwordResetModal').style.display='block';">Reset my password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- Password Reset Modal -->
+<div id="passwordResetModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('passwordResetModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a password reset code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<div class="modal-text">New Password</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('passwordResetModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Change password</button>
+	</div>
+  </div>
+
+</div>
+
+<!-- account verified Modal -->
+<div id="accountVerifiedModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('accountVerifiedModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text text-center">Your account has been verified</div>
+		<div class="title text-center my-2">Thank You</div>
+	</div>
+  </div>
+
+</div>
+
+<!-- Code Verification Modal -->
+<div id="codeVerificationModal" class="modal">
+
+  <div class="modal-content">
+    <button class="d-flex ml-auto close" type="submit" 
+	onclick="document.getElementById('codeVerificationModal').style.display='none';">
+		<i class="fa fa-close closeBtn"></i>
+	</button>
+    <div class="d-flex flex-column">
+		<div class="logo text-center my-4">Logo Name</div>
+		<div class="model-text">We have sent a code to your email</div>
+		<div class="modal-text my-2">Please enter it below</div>
+		<div class="modal-text">Code</div>
+		<div class="input-group">
+			<input type="text" class="form-control d-flex mx-2">
+		</div>
+		<button class="btn btn-outline-success btn-outline-success-blue mx-4 my-4" type="submit" 
+		onclick="document.getElementById('codeVerificationModal').style.display='none';document.getElementById('accountVerifiedModal').style.display='block';">Confirm Account</button>
+		<div class="modal-text justify-content-center text-center">Didnt recieve a code? <button class="textLink">Resend It</button></div>
+	</div>
+  </div>
+
+</div>
+
+<script>
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == document.getElementById('signInModal')) {
+        document.getElementById('signInModal').style.display = "none";
+    }else if(event.target == document.getElementById('signUpModal')){
+		document.getElementById('signUpModal').style.display = "none";
+	}else if(event.target == document.getElementById('forgotPasswordModal')){
+		document.getElementById('forgotPasswordModal').style.display = "none";
+	}else if(event.target == document.getElementById('accountVerifiedModal')){
+		document.getElementById('accountVerifiedModal').style.display = "none";
+	}
+}
+
+//sign in verification script which changes buttons on success
+function verifySignIn(){
+	
+	//once integrate with aws this is where verification script would been
+	var signIn = true;
+	
+	//change usr displays
+	if(signIn){
+		document.getElementById('signInModal').style.display='none';
+		$('#callSignIn').toggleClass('hidden');
+		$('#callSignUp').toggleClass('hidden');
+		$('#welcome').toggleClass('hidden');
+		$('#account').toggleClass('hidden');
+	}
+	
+	
+}
+
+function signOut(){
+	$('#callSignIn').toggleClass('hidden');
+	$('#callSignUp').toggleClass('hidden');
+	$('#welcome').toggleClass('hidden');
+	$('#account').toggleClass('hidden');
+}
+</script>
+
+</body>
+</html>
